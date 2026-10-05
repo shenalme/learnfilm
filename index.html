@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Filmmaking: From Story to Screen | Free online course</title>
+<meta name="description" content="A free online filmmaking course in Sinhala, Tamil and English for O/L and A/L students and beginners. Earn a certificate and digital badge.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..800&family=Caveat:wght@600&family=Newsreader:opsz,wght@6..72,400;6..72,600&family=Noto+Sans+Sinhala:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+:root{
+  --paper:#EDEFEA; --card:#F8F9F6; --ink:#1A1D29; --slate:#596172; --line:#CDD1C8;
+  --tungsten:#D98E1F; --tungsten-soft:#F6E2BF; --daylight:#3563AE; --daylight-soft:#DCE6F5;
+  --strip:#1A1D29; --strip-frame:#2E3344; --ok:#2F7D4F; --err:#B23A2E;
+  --sans:'Archivo','Noto Sans Sinhala','Noto Sans Tamil',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --serif:'Newsreader','Noto Sans Sinhala','Noto Sans Tamil',Georgia,'Times New Roman',serif;
+  --hand:'Caveat','Comic Sans MS',cursive;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#14161D; --card:#1C1F28; --ink:#E8E9E3; --slate:#A2A8B5; --line:#2E3240;
+    --tungsten:#F0A93E; --tungsten-soft:#3A2E1A; --daylight:#82A6E3; --daylight-soft:#1E2A40;
+    --strip:#0C0E13; --strip-frame:#262A37; --ok:#5DBB83; --err:#E77B6F; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#14161D; --card:#1C1F28; --ink:#E8E9E3; --slate:#A2A8B5; --line:#2E3240;
+  --tungsten:#F0A93E; --tungsten-soft:#3A2E1A; --daylight:#82A6E3; --daylight-soft:#1E2A40;
+  --strip:#0C0E13; --strip-frame:#262A37; --ok:#5DBB83; --err:#E77B6F; color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{height:100%;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 72px)}
+body{margin:0;min-height:100%;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+img,svg,canvas{max-width:100%}
+a{color:var(--daylight)}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--daylight);outline-offset:2px;border-radius:3px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+h1,h2,h3{font-family:var(--sans);font-stretch:82%;line-height:1.1;margin:0 0 .5em;letter-spacing:-.01em}
+h1{font-size:clamp(2rem,5vw,3.2rem);font-weight:800}
+h2{font-size:clamp(1.5rem,3.2vw,2.2rem);font-weight:750}
+h3{font-size:1.15rem;font-weight:700;font-stretch:90%}
+p{margin:0 0 1em}
+.muted{color:var(--slate)}
+.small{font-size:.88rem}
+.demo-bar{background:var(--daylight);color:#fff;font-size:.85rem;text-align:center;padding:6px 12px}
+.demo-bar a{color:#fff}
+
+/* header */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--paper) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:18px;height:64px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font-weight:800;font-stretch:80%;font-size:1.15rem;margin-right:auto;white-space:nowrap}
+.nav{display:flex;align-items:center;gap:6px}
+.nav a{color:var(--ink);text-decoration:none;padding:8px 10px;border-radius:6px;font-size:.95rem}
+.nav a:hover{background:var(--card)}
+.nav a.on{font-weight:700;box-shadow:inset 0 -2px 0 var(--tungsten);border-radius:0}
+.lang{border:1px solid var(--line);background:var(--card);border-radius:6px;padding:6px 8px;font-size:.9rem}
+.menu-btn{display:none;background:none;border:1px solid var(--line);border-radius:6px;padding:6px 10px}
+@media (max-width:860px){
+  .menu-btn{display:block}
+  .nav{position:absolute;left:0;right:0;top:64px;background:var(--paper);flex-direction:column;align-items:stretch;padding:10px 20px 16px;border-bottom:1px solid var(--line);display:none}
+  .nav.open{display:flex}
+  .nav a.on{box-shadow:inset 3px 0 0 var(--tungsten)}
+}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:8px;padding:13px 20px;font-weight:700;font-stretch:90%;text-decoration:none;cursor:pointer;font-size:1rem;line-height:1.2;text-align:center}
+.btn-primary{background:var(--tungsten);color:#1A1D29}
+.btn-primary:hover{filter:brightness(1.06)}
+.btn-ink{background:var(--ink);color:var(--paper)}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn-link{background:none;border:0;color:var(--daylight);padding:6px 0;cursor:pointer;font-weight:600;text-decoration:underline;text-underline-offset:3px}
+.btn[disabled],.btn.busy{opacity:.55;cursor:wait}
+.btn-sm{padding:10px 14px;font-size:.92rem}
+.btn-block{width:100%}
+.nav .btn{padding:9px 14px;font-size:.92rem}
+.btn-google{background:var(--card);color:var(--ink);border:1.5px solid var(--line);width:100%}
+
+/* hero */
+.hero{padding:52px 0 60px}
+.hero .wrap{display:grid;grid-template-columns:1.05fr 1fr;gap:48px;align-items:center}
+.hero h1{font-size:clamp(2.5rem,6.4vw,4.4rem);font-stretch:75%;max-width:12ch}
+.hero .lead{font-size:1.15rem;max-width:44ch;color:var(--slate)}
+.ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px;align-items:center}
+.cta-note{font-size:.88rem;color:var(--slate);width:100%;margin-top:-2px}
+.langs-note{margin-top:20px;font-size:.92rem;color:var(--slate)}
+.langs-note b{color:var(--ink);font-weight:600}
+@media (max-width:860px){.hero .wrap{grid-template-columns:1fr;gap:36px}.hero{padding-top:30px}}
+
+/* slate */
+.slate{max-width:460px;width:100%;justify-self:center;filter:drop-shadow(0 18px 30px rgba(20,22,30,.22))}
+.clap{position:relative;height:54px}
+.arm,.bar{position:absolute;left:0;right:0;height:34px;border-radius:4px 4px 0 0;background:repeating-linear-gradient(-55deg,#1A1D29 0 26px,#F2F2EC 26px 52px);border:3px solid #1A1D29}
+.bar{bottom:0;border-radius:0}
+.arm{bottom:20px;transform-origin:6px 100%;transform:rotate(-16deg)}
+.arm.snap{animation:snap .5s cubic-bezier(.6,0,.9,.5) .55s both}
+@keyframes snap{from{transform:rotate(-16deg)}to{transform:rotate(0deg)}}
+@media (prefers-reduced-motion:reduce){.arm.snap{animation:none}}
+.board{background:#22262F;color:#F4F4EE;border:3px solid #1A1D29;border-top:0;border-radius:0 0 8px 8px;padding:6px 0 0}
+.board .row{display:grid;grid-template-columns:1fr 1fr;border-top:1.5px solid rgba(244,244,238,.55)}
+.board .row:first-child{border-top:0}
+.board .cell{padding:8px 14px 10px;border-left:1.5px solid rgba(244,244,238,.55);min-width:0}
+.board .cell:first-child{border-left:0}
+.board .full{grid-column:1/-1}
+.board .lbl{font-size:.74rem;opacity:.7;font-stretch:90%}
+.board .val{font-family:var(--hand);font-size:1.75rem;line-height:1.05;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.board .val.big{font-size:2.1rem}
+
+/* sections */
+.sec{padding:60px 0;border-top:1px solid var(--line)}
+.sec-head{max-width:640px;margin-bottom:28px}
+.shotlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));border-top:2px solid var(--ink)}
+.shot{padding:18px 18px 20px 0;border-bottom:1px solid var(--line)}
+.shot .n{font-weight:800;font-stretch:75%;font-size:1.8rem;color:var(--tungsten);line-height:1;display:block;margin-bottom:8px}
+.shot h3{margin:0 0 4px}
+.shot p{margin:0;font-size:.93rem;color:var(--slate)}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;counter-reset:s;padding:0;margin:0}
+.steps li{list-style:none;padding-top:16px;border-top:3px solid var(--ink)}
+.steps li:last-child{border-top-color:var(--tungsten)}
+.steps b{display:block;font-stretch:85%;font-size:1.1rem;margin-bottom:4px}
+.steps li::before{counter-increment:s;content:counter(s);font-weight:800;font-stretch:75%;font-size:2rem;display:block;line-height:1;margin-bottom:8px}
+@media (max-width:820px){.steps{grid-template-columns:1fr 1fr}}
+@media (max-width:480px){.steps{grid-template-columns:1fr}}
+
+.academy-band{background:var(--ink);color:var(--paper);padding:68px 0}
+.academy-band .wrap{display:grid;grid-template-columns:1.2fr 1fr;gap:48px;align-items:start}
+.academy-band h2{font-size:clamp(2rem,4.6vw,3.1rem);font-stretch:75%}
+.academy-band p{color:color-mix(in srgb,var(--paper) 78%,var(--ink))}
+.academy-band .btn-ghost{color:var(--paper);border-color:var(--paper)}
+.compare{border:1px solid color-mix(in srgb,var(--paper) 25%,transparent);border-radius:10px;overflow:hidden}
+.compare div{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid color-mix(in srgb,var(--paper) 18%,transparent)}
+.compare div:first-child{border-top:0;font-weight:700}
+.compare span{padding:12px 14px;font-size:.95rem}
+.compare span+span{border-left:1px solid color-mix(in srgb,var(--paper) 18%,transparent);background:color-mix(in srgb,var(--tungsten) 16%,transparent)}
+@media (max-width:860px){.academy-band .wrap{grid-template-columns:1fr}}
+
+.faq details{border-bottom:1px solid var(--line);padding:14px 0}
+.faq summary{cursor:pointer;font-weight:650;font-stretch:92%;font-size:1.05rem}
+.faq details p{margin:10px 0 0;color:var(--slate);max-width:68ch}
+footer{padding:36px 0 48px;border-top:1px solid var(--line);color:var(--slate);font-size:.9rem}
+footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-between}
+
+/* forms */
+.panel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:28px}
+@media (max-width:520px){.panel{padding:22px 18px}}
+.auth{max-width:440px;margin:40px auto 72px}
+.field{margin-bottom:14px}
+.field label,.lbl-text{display:block;font-weight:600;font-size:.92rem;margin-bottom:6px}
+.field input,.field select,.field textarea{width:100%;padding:12px 13px;border:1.5px solid var(--line);border-radius:8px;background:var(--paper)}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--daylight);outline:none;box-shadow:0 0 0 3px var(--daylight-soft)}
+.pw{position:relative}
+.pw input{padding-right:70px}
+.pw button{position:absolute;right:6px;top:50%;transform:translateY(-50%);background:none;border:0;color:var(--daylight);font-weight:600;font-size:.88rem;cursor:pointer;padding:6px 8px}
+.hint{font-size:.84rem;color:var(--slate);margin-top:5px}
+.error{color:var(--err);font-size:.92rem;font-weight:600;min-height:1.2em;margin:2px 0 10px}
+.seg{display:flex;gap:6px}
+.seg label{flex:1;text-align:center;border:1.5px solid var(--line);border-radius:8px;padding:9px 6px;cursor:pointer;background:var(--paper);font-weight:600;font-size:.95rem}
+.seg label:has(input:checked){border-color:var(--tungsten);background:var(--tungsten-soft)}
+.seg input,.chip input{position:absolute;opacity:0;pointer-events:none}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1.5px solid var(--line);border-radius:999px;padding:8px 14px;cursor:pointer;background:var(--paper);font-size:.93rem;user-select:none}
+.chip:has(input:checked){border-color:var(--tungsten);background:var(--tungsten-soft);font-weight:600}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:.92rem;margin:4px 0 16px}
+.check input{margin-top:3px;width:18px;height:18px;accent-color:var(--tungsten);flex:0 0 auto}
+.or{display:flex;align-items:center;gap:12px;color:var(--slate);font-size:.85rem;margin:16px 0}
+.or::before,.or::after{content:"";flex:1;border-top:1px solid var(--line)}
+.choices{display:grid;gap:8px}
+.choice{display:flex;gap:12px;align-items:center;padding:13px 14px;border:1.5px solid var(--line);border-radius:9px;cursor:pointer;background:var(--paper)}
+.choice:has(input:checked){border-color:var(--tungsten);background:var(--tungsten-soft)}
+.choice input{accent-color:var(--tungsten);width:18px;height:18px;flex:0 0 auto}
+
+/* filmstrip */
+.strip{position:relative;background:var(--strip);border-radius:6px;padding:20px 12px;overflow-x:auto;scrollbar-width:thin}
+.frames{position:relative;display:flex;gap:5px;width:max-content;min-width:100%}
+.frames::before,.frames::after{content:"";position:absolute;left:-6px;right:-6px;height:8px;background:repeating-linear-gradient(90deg,transparent 0 7px,rgba(237,239,234,.82) 7px 15px,transparent 15px 22px)}
+.frames::before{top:-15px}.frames::after{bottom:-15px}
+.frame{flex:1 0 40px;min-width:40px;height:42px;border-radius:2px;background:var(--strip-frame);color:#AEB4C2;font-size:.72rem;font-weight:700;display:flex;align-items:flex-end;justify-content:center;padding-bottom:3px;text-decoration:none}
+.frame.done{background:#E8A23A;color:#1A1D29}
+.frame.cur{outline:2.5px solid #9FBEF0;outline-offset:2px}
+.frame.gap{margin-left:9px}
+.frame:hover{filter:brightness(1.18)}
+.strip-legend{display:flex;flex-wrap:wrap;gap:16px;font-size:.85rem;color:var(--slate);margin-top:10px}
+.strip-legend i{display:inline-block;width:12px;height:12px;border-radius:2px;vertical-align:-1px;margin-right:6px}
+
+/* dashboard */
+.dash{padding:32px 0 72px}
+.dash-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:20px}
+.dash-head h1{margin:0}
+.pct{font-weight:800;font-stretch:75%;font-size:3rem;line-height:1}
+.pct small{font-size:1rem;font-weight:500;color:var(--slate);font-stretch:100%;margin-left:6px}
+.dash-grid{display:grid;grid-template-columns:1fr 340px;gap:28px;margin-top:26px;align-items:start}
+@media (max-width:900px){.dash-grid{grid-template-columns:1fr}}
+.next{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;background:var(--card);border:1px solid var(--line);border-left:5px solid var(--tungsten);border-radius:10px;padding:20px 22px;margin-bottom:24px}
+.next .k{font-size:.85rem;color:var(--slate)}
+.next h3{margin:2px 0 0;font-size:1.3rem}
+.about{background:var(--daylight-soft);border-radius:10px;padding:20px 22px;margin-bottom:24px}
+.about h3{margin-bottom:4px}
+.about .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:14px}
+.about select{padding:9px 10px;border:1.5px solid var(--line);border-radius:8px;background:var(--paper)}
+.mods{border-top:2px solid var(--ink)}
+.mod{border-bottom:1px solid var(--line)}
+.mod>summary{list-style:none;display:grid;grid-template-columns:40px 1fr auto;gap:12px;align-items:center;padding:16px 0;cursor:pointer}
+.mod>summary::-webkit-details-marker{display:none}
+.mod .n{font-weight:800;font-stretch:75%;font-size:1.5rem;color:var(--slate)}
+.mod.complete .n{color:var(--tungsten)}
+.mod h3{margin:0;font-size:1.12rem}
+.mod .meta{font-size:.86rem;color:var(--slate)}
+.mod .tally{font-size:.85rem;font-weight:700;color:var(--slate);white-space:nowrap}
+.mod.complete .tally{color:var(--ok)}
+.mod ul{list-style:none;margin:0 0 14px;padding:0 0 0 52px}
+.mod li a{display:flex;gap:10px;align-items:center;padding:8px 0;text-decoration:none;color:var(--ink)}
+.mod li a:hover .t{text-decoration:underline}
+.tick{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--line);flex:0 0 auto;display:grid;place-items:center;font-size:.7rem}
+.tick.on{background:var(--ok);border-color:var(--ok);color:#fff}
+.mod li .d{margin-left:auto;font-size:.85rem;color:var(--slate);white-space:nowrap}
+.credits{background:var(--strip);color:#EDEFEA;border-radius:10px;padding:24px 22px;text-align:center}
+.credits h3{color:#E8A23A;font-stretch:80%;margin-bottom:12px}
+.credits .role{font-size:.78rem;color:#9AA1B0;margin-top:12px}
+.credits .who{font-weight:700;font-stretch:88%;font-size:1.05rem}
+.credits .who.todo{color:#4C5263;font-weight:500}
+.credits p{font-size:.86rem;color:#9AA1B0;margin:14px 0 0}
+.acad-card{margin-top:20px;border:2px solid var(--ink);border-radius:10px;padding:22px}
+.acad-card p{font-size:.95rem;color:var(--slate)}
+
+/* lesson */
+.lesson{padding:26px 0 72px}
+.lesson-grid{display:grid;grid-template-columns:250px 1fr;gap:40px;align-items:start}
+@media (max-width:900px){.lesson-grid{grid-template-columns:1fr}.side{order:2;position:static}}
+.side{position:sticky;top:calc(env(safe-area-inset-top,0px) + 84px)}
+.side h4{margin:0 0 8px;font-size:.86rem;color:var(--slate);font-weight:600}
+.side ol{list-style:none;margin:0;padding:0;border-left:2px solid var(--line)}
+.side li a{display:flex;gap:8px;align-items:center;padding:7px 0 7px 12px;margin-left:-2px;border-left:2px solid transparent;text-decoration:none;color:var(--ink);font-size:.93rem}
+.side li a.on{border-left-color:var(--tungsten);font-weight:700}
+.crumb{font-size:.9rem;color:var(--slate);margin-bottom:8px}
+.crumb a{color:var(--slate)}
+.preview{background:var(--tungsten-soft);border-radius:8px;padding:10px 14px;font-size:.92rem;margin-bottom:16px;max-width:68ch}
+.video{position:relative;aspect-ratio:16/9;background:#101218;border-radius:10px;overflow:hidden;display:grid;place-items:center;color:#EDEFEA;margin:16px 0 26px;max-width:68ch}
+.video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.video .play{width:72px;height:72px;border-radius:50%;background:#E8A23A;display:grid;place-items:center;border:0;cursor:pointer}
+.video .cap{position:absolute;left:16px;bottom:14px;right:16px;display:flex;justify-content:space-between;font-size:.85rem;color:#B8BDC9;gap:10px}
+.reading{font-family:var(--serif);font-size:1.15rem;line-height:1.7;max-width:66ch}
+.reading p{margin:0 0 1.1em}
+.reading strong{font-family:var(--sans);font-size:.94em}
+.box{border-radius:10px;padding:20px 22px;margin:24px 0;max-width:66ch}
+.box h3{font-size:1.05rem;margin-bottom:8px}
+.box ul{margin:0;padding-left:20px}
+.box li{margin-bottom:4px}
+.box.take{background:var(--card);border:1px solid var(--line)}
+.box.try{background:var(--daylight-soft);border-left:5px solid var(--daylight)}
+.box.acad{background:var(--tungsten-soft);border-left:5px solid var(--tungsten)}
+.box.acad a{font-weight:700}
+.lesson-nav{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;margin-top:32px;padding-top:22px;border-top:1px solid var(--line);max-width:66ch}
+.lang-note{font-size:.9rem;background:var(--card);border:1px dashed var(--line);border-radius:8px;padding:10px 14px;margin-bottom:16px;max-width:66ch}
+.save-card{max-width:66ch;margin-top:32px;border:2px solid var(--tungsten)}
+.save-card h2{font-size:1.6rem}
+
+/* quiz */
+.q{margin:0 0 24px;max-width:66ch}
+.q legend{font-weight:700;font-size:1.08rem;margin-bottom:10px;font-stretch:95%}
+.q fieldset{border:0;padding:0;margin:0}
+.q .choice.right{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 14%,var(--paper))}
+.q .choice.wrong{border-color:var(--err);background:color-mix(in srgb,var(--err) 12%,var(--paper))}
+.why{font-size:.93rem;margin-top:8px;color:var(--slate)}
+.result{border-radius:12px;padding:24px;margin:10px 0 26px;max-width:66ch}
+.result.pass{background:var(--tungsten-soft);border:2px solid var(--tungsten)}
+.result.fail{background:var(--card);border:2px solid var(--line)}
+.result .credit{font-stretch:80%;font-size:1.6rem;font-weight:800;margin:6px 0 10px}
+
+/* certificate */
+.cert-wrap{padding:34px 0 72px}
+.cert-grid{display:grid;grid-template-columns:1fr 300px;gap:28px;align-items:start;margin-top:22px}
+@media (max-width:900px){.cert-grid{grid-template-columns:1fr}}
+.cert-view,.badge-view{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+.cert-view img{display:block;width:100%;height:auto;border-radius:4px}
+.badge-view{text-align:center;padding:22px}
+.badge-view img{width:200px;height:200px}
+.actions-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.disclaim{font-size:.85rem;color:var(--slate);margin-top:14px;max-width:70ch}
+.locked{max-width:640px}
+.remaining{list-style:none;padding:0;margin:16px 0 22px;border-top:1px solid var(--line)}
+.remaining li{border-bottom:1px solid var(--line);padding:10px 0;display:flex;justify-content:space-between;gap:12px}
+.verify{max-width:560px;margin:48px auto 80px;text-align:center}
+.verify .seal{width:72px;height:72px;border-radius:50%;display:grid;place-items:center;margin:0 auto 16px;font-size:2rem;color:#fff}
+
+/* academy */
+.acad-hero{background:var(--ink);color:var(--paper);padding:60px 0 52px}
+.acad-hero h1{font-size:clamp(2.3rem,6vw,3.9rem);font-stretch:75%;max-width:15ch}
+.acad-hero p{max-width:56ch;color:color-mix(in srgb,var(--paper) 78%,var(--ink));font-size:1.12rem}
+.facts{display:grid;grid-template-columns:repeat(4,1fr);margin-top:34px;border-top:1px solid color-mix(in srgb,var(--paper) 25%,transparent)}
+.facts div{padding:16px 16px 0 0}
+.facts span{display:block;font-size:.82rem;color:color-mix(in srgb,var(--paper) 60%,var(--ink))}
+.facts b{font-stretch:85%;font-size:1.1rem}
+@media (max-width:760px){.facts{grid-template-columns:1fr 1fr}}
+.gets{display:grid;grid-template-columns:repeat(3,1fr);gap:30px 28px}
+.gets div{border-top:3px solid var(--tungsten);padding-top:14px}
+.gets p{color:var(--slate);font-size:.96rem;margin:0}
+@media (max-width:860px){.gets{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.gets{grid-template-columns:1fr}}
+.enquire{display:grid;grid-template-columns:1fr 1.2fr;gap:40px;align-items:start}
+@media (max-width:860px){.enquire{grid-template-columns:1fr}}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
+@media (max-width:520px){.two{grid-template-columns:1fr}}
+.done-msg{border:2px solid var(--ok);border-radius:12px;padding:24px;background:color-mix(in srgb,var(--ok) 10%,var(--card))}
+
+.loading{display:grid;place-items:center;min-height:60vh;color:var(--slate)}
+.toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 22px);transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--paper);padding:12px 18px;border-radius:8px;font-weight:600;opacity:0;transition:.25s;z-index:50;pointer-events:none;max-width:90vw}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media (prefers-reduced-motion:reduce){.toast{transition:none}}
+</style>
+</head>
+<body>
+<div id="demoBar"></div>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#/" aria-label="Story to Screen home">
+      <svg width="30" height="26" viewBox="0 0 30 26" aria-hidden="true"><rect x="1" y="9" width="28" height="16" rx="2" fill="currentColor"/><path d="M1 8 L27 2 L28 6 L2 12 Z" fill="#D98E1F"/><path d="M7 6.6 L10 10.4 M14 5 L17 8.8 M21 3.4 L24 7.2" stroke="var(--paper)" stroke-width="2"/></svg>
+      <span>Story to Screen</span>
+    </a>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="nav">Menu</button>
+    <nav class="nav" id="nav"></nav>
+  </div>
+</header>
+<main id="app" tabindex="-1"><div class="loading">Loading…</div></main>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* =========================================================
+   CONFIG: edit these for your organisation
+   ========================================================= */
+const CONFIG = {
+  // Supabase > Project Settings > API. Leave as-is to run in demo mode (saves in this browser only).
+  supabaseUrl: "YOUR_SUPABASE_URL",
+  supabaseAnonKey: "YOUR_SUPABASE_ANON_KEY",
+  googleLogin: false,              // set true after enabling Google in Supabase > Authentication > Providers
+  siteUrl: location.origin + location.pathname,
+  org: "The Film Academy",
+  courseTitle: "Filmmaking: From Story to Screen",
+  signatory: "Programme Director",
+  hashtag: "#StoryToScreenLK",
+  academy: {
+    location: "Colombo (in person)",
+    nextIntake: "January 2027",
+    format: "Weekends, 6 months",
+    outcome: "Your own short film",
+    email: "academy@example.lk",
+    phone: "+94 77 000 0000"
+  }
+};
+const DEMO = !/^https:\/\//.test(CONFIG.supabaseUrl);
+
+/* =========================================================
+   COURSE CONTENT
+   - To add a lesson video, set video: "YOUTUBE_VIDEO_ID".
+   - If you change lesson ids or quiz answers, update the
+     seed section at the bottom of supabase/schema.sql too.
+   ========================================================= */
+const SECTIONS = [
+{
+  id: 1, credit: "Story by",
+  title: { en: "Story and script", si: "කතාව සහ තිර පිටපත", ta: "கதையும் திரைக்கதையும்" },
+  blurb: "Find an idea, build a character and write a one-page script.",
+  lessons: [
+  { id: "s1l1", title: "Finding your story", mins: 5, video: "",
+    body: [
+      "Every film starts as an idea, and the best ideas usually come from your own life. Think about the people on your bus, an argument at home, a rumour at school, a strange thing you saw in town. You know these worlds better than anyone, and nobody has filmed them yet.",
+      "A quick way to test an idea is to ask <strong>\"what if?\"</strong>. What if a tuk-tuk driver finds a schoolbag full of money? What if a girl enters the school cricket match under her brother's name? A good \"what if\" always contains a <strong>person</strong> and a <strong>problem</strong>.",
+      "Filmmakers sum up an idea in a <strong>logline</strong>: one sentence that says who the story is about, what they want and what's stopping them. Try this pattern: <em>When [something happens], [a character] must [do something] or else [something bad happens].</em>"
+    ],
+    keys: ["Ideas come from the world around you.", "A good idea has a person and a problem.", "A logline sums up your film in one sentence."],
+    task: "Write three \"what if\" ideas from your own week. Pick your favourite and turn it into a logline.",
+    academy: "At the Academy, you develop your idea in a writers' room with mentors and classmates, and leave with a story you'll actually shoot."
+  },
+  { id: "s1l2", title: "Characters and conflict", mins: 6, video: "",
+    body: [
+      "People watch films to follow characters, not plots. Give your main character something they badly <strong>want</strong>: to pass an exam, win a match, win back a friend, escape a village wedding. Then put something in their way.",
+      "That obstacle creates <strong>conflict</strong>, and conflict is what keeps an audience watching. Without it, nothing happens. The obstacle can be another person, the character's own fear, or the world around them.",
+      "Most films have three parts. The <strong>beginning</strong> shows who the character is and what they want. The <strong>middle</strong> makes it harder and harder to get. The <strong>end</strong> shows whether they succeed, fail or change. For your first film, keep it small: one main character, one or two locations, one problem, under three minutes."
+    ],
+    keys: ["Give your character a clear want.", "Conflict is what keeps people watching.", "Beginning, middle, end. Keep it small."],
+    task: "Write your film idea in three sentences: one for the beginning, one for the middle and one for the end.",
+    academy: "At the Academy, a story mentor helps you shape your idea scene by scene before anyone picks up a camera."
+  },
+  { id: "s1l3", title: "Writing a one-page script", mins: 6, video: "",
+    body: [
+      "A script uses a simple, standard layout so the whole team can read it fast. Each scene starts with a <strong>scene heading</strong>: inside or outside, the place, and the time. For example: <em>INT. CLASSROOM - DAY</em> or <em>EXT. BUS STAND - NIGHT</em>.",
+      "Under it, write <strong>action</strong> in the present tense, describing only what we can see and hear. Then the character's name and their <strong>dialogue</strong>. One page of script is roughly <strong>one minute</strong> on screen.",
+      "Film is visual, so <strong>show, don't tell</strong>. Instead of a character saying \"I'm nervous\", show her checking her phone for the fifth time. Keep dialogue short, and read it out loud. If it sounds like a speech, cut it. Free apps like Celtx or WriterDuet do the formatting for you."
+    ],
+    keys: ["Scene heading: INT or EXT, place, time.", "One page is about one minute.", "Show feelings through action, not explanation."],
+    task: "Write a one-page script for your idea with no more than five lines of dialogue.",
+    academy: "At the Academy, your script is read aloud by actors at a table read so you can hear what works before you shoot."
+  }],
+  quiz: [
+    { q: "What is a logline?", o: ["A one-sentence summary of your story", "A list of every shot", "The final line of dialogue"], a: 0, why: "A logline says who the story is about, what they want and what stands in their way." },
+    { q: "What keeps an audience watching?", o: ["Expensive cameras", "Conflict between what a character wants and what stops them", "Long dialogue scenes"], a: 1, why: "Conflict creates tension and makes us care what happens next." },
+    { q: "Roughly how long is one page of script on screen?", o: ["Ten seconds", "One minute", "Five minutes"], a: 1, why: "In standard script format, one page is about one minute." }
+  ]
+},
+{
+  id: 2, credit: "Directed by",
+  title: { en: "Planning and directing", si: "සැලසුම් කිරීම සහ අධ්‍යක්ෂණය", ta: "திட்டமிடலும் இயக்கமும்" },
+  blurb: "Plan a shoot, work with actors and cover a scene.",
+  lessons: [
+  { id: "s2l1", title: "Planning your shoot", mins: 6, video: "",
+    body: [
+      "Most problems on a film set are really planning problems. Before shooting day, read your script and list everything each scene needs: actors, props, costumes and locations. This is called a <strong>script breakdown</strong>.",
+      "Next, write a <strong>shot list</strong>: every shot you plan to film, in order. Then make a simple <strong>schedule</strong>. Group scenes by location, not by story order, so you film everything at one place before moving on.",
+      "Visit your location at the time you'll film. Check the light, listen for traffic, loudspeakers or generators, and ask permission. A small crew of three works well: a director, a camera person and a sound person. And always bring water and food. A fed crew is a happy crew."
+    ],
+    keys: ["Break down your script: list what every scene needs.", "Schedule by location, not story order.", "Visit locations first and get permission."],
+    task: "Break down your one-page script. List every actor, prop, costume and location it needs.",
+    academy: "At the Academy, you plan a real production with a producer mentor: schedules, budgets and call sheets included."
+  },
+  { id: "s2l2", title: "Working with actors", mins: 5, video: "",
+    body: [
+      "Your actors might be friends, classmates or family. They will act better if you give them something they can <strong>play</strong>, rather than a feeling to show.",
+      "\"Be sad\" is hard to act. \"You want your brother to stay, but you're too proud to ask him\" gives the actor a goal and an obstacle, and the sadness comes naturally. Try to direct with <strong>\"you want...\"</strong> instead of an emotion.",
+      "Always <strong>rehearse</strong> before you film, even for ten minutes. Rehearsal is free; reshooting costs time. Give notes quietly and kindly, praise what's working, and only change one thing at a time between takes."
+    ],
+    keys: ["Give actors goals, not emotions.", "Rehearse before you film.", "Give notes kindly, one at a time."],
+    task: "For each character in your script, write one line of direction that starts with \"You want...\".",
+    academy: "At the Academy, you direct real actors on set while an experienced director coaches you between takes."
+  },
+  { id: "s2l3", title: "Blocking and coverage", mins: 6, video: "",
+    body: [
+      "<strong>Blocking</strong> means planning where your actors stand and move. Every move should have a reason: a character walks to the door because they want to leave, not because the shot looked boring.",
+      "<strong>Coverage</strong> means filming a scene from more than one angle so you have choices in the edit. A simple pattern: film the whole scene in a <strong>wide shot</strong>, then again in a <strong>medium shot</strong>, then <strong>close-ups</strong> of each person.",
+      "Remember the <strong>180-degree rule</strong>. Imagine a line between two people talking. Keep your camera on one side of that line. If you cross it, they will seem to swap places on screen and confuse the audience."
+    ],
+    keys: ["Every move needs a reason.", "Film wide, then medium, then close-ups.", "Keep the camera on one side of the 180-degree line."],
+    task: "Draw a top-down sketch of your main scene: where actors stand, where they move and where the camera goes.",
+    academy: "At the Academy, you block and cover full scenes on location with a working crew."
+  }],
+  quiz: [
+    { q: "Why should you schedule scenes by location?", o: ["So you finish everything at one place before moving on", "Because the script says so", "It makes the film shorter"], a: 0, why: "Grouping by location saves travel time and keeps the shoot efficient." },
+    { q: "Which direction is most useful for an actor?", o: ["\"Be angrier\"", "\"You want him to admit he lied\"", "\"Act like a film star\""], a: 1, why: "A clear goal gives the actor something real to play." },
+    { q: "What does the 180-degree rule help you avoid?", o: ["Running out of battery", "Blurry shots", "Characters seeming to swap sides on screen"], a: 2, why: "Staying on one side of the line keeps everyone's position consistent." }
+  ]
+},
+{
+  id: 3, credit: "Cinematography by",
+  title: { en: "Camera", si: "කැමරාව", ta: "கேமரா" },
+  blurb: "Shot sizes, framing and filming well on a phone.",
+  lessons: [
+  { id: "s3l1", title: "Shot sizes and angles", mins: 5, video: "",
+    body: [
+      "Every shot size does a job. A <strong>wide shot</strong> shows where we are. A <strong>medium shot</strong> shows a person from the waist up and is great for conversations. A <strong>close-up</strong> fills the screen with a face and shows emotion. An <strong>extreme close-up</strong> shows a detail: an eye, a hand, an exam result.",
+      "The camera's angle changes how we feel about someone. A <strong>low angle</strong>, looking up, makes a character seem powerful. A <strong>high angle</strong>, looking down, makes them seem small or weak. Eye level feels neutral and honest.",
+      "Before you press record, ask yourself one question: what does the audience need to see right now? Then pick the shot that shows exactly that."
+    ],
+    keys: ["Wide shows the place; close-up shows the feeling.", "Low angle adds power; high angle makes someone small.", "Choose every shot for a reason."],
+    task: "Film a friend doing the same action three times: once wide, once medium, once close-up. Notice how each feels different.",
+    academy: "At the Academy, you shoot on professional cinema cameras and lenses with a cinematographer guiding you."
+  },
+  { id: "s3l2", title: "Framing a great shot", mins: 5, video: "",
+    body: [
+      "Imagine your screen split into a three-by-three grid. Putting a person on one of the lines, rather than in the dead centre, usually looks more natural. This is the <strong>rule of thirds</strong>. Most phones can show this grid in the camera settings.",
+      "Leave <strong>lead room</strong>: space in front of a person in the direction they're looking or walking. Don't leave too much empty space above their head (called <strong>headroom</strong>), and avoid cutting people off at the neck, knees or ankles.",
+      "Watch your background. A pole growing out of someone's head or a busy road behind them will distract people. Move the camera, or the actor, until the background is simple and helps the story."
+    ],
+    keys: ["Turn on the grid and use the rule of thirds.", "Leave lead room in front of your subject.", "Keep backgrounds simple."],
+    task: "Turn on your phone's camera grid. Take five photos of a friend using the rule of thirds and lead room.",
+    academy: "At the Academy, you'll learn to plan shots with storyboards and shoot them with professional framing tools."
+  },
+  { id: "s3l3", title: "Filming on your phone", mins: 6, video: "",
+    body: [
+      "Your phone is a real film camera if you use it well. Always film <strong>horizontally</strong> (landscape) unless your film is made only for vertical social media. <strong>Wipe the lens</strong> with a soft cloth before every shoot. A greasy lens makes everything look foggy.",
+      "Tap and hold on your subject's face to <strong>lock focus and exposure</strong>, so the picture doesn't keep changing brightness. Set the frame rate to <strong>24 or 25 frames per second</strong> for a film-like look, and turn on airplane mode so calls don't interrupt a take.",
+      "Keep the camera <strong>steady</strong>. Use a tripod, rest your elbows on a wall, or hold the phone with both hands close to your body. When you move, walk slowly and smoothly. Check you have enough battery and storage before you leave home."
+    ],
+    keys: ["Film horizontally and clean the lens.", "Lock focus and exposure; use 24 or 25 fps.", "Keep it steady."],
+    task: "Film a 30-second sequence of someone making tea, using at least one wide shot, one close-up and locked exposure.",
+    academy: "At the Academy, you'll work with tripods, sliders and gimbals to plan and shoot camera movement."
+  }],
+  quiz: [
+    { q: "Which shot is best for showing emotion?", o: ["Wide shot", "Close-up", "Aerial shot"], a: 1, why: "A close-up lets us read a character's face." },
+    { q: "What is lead room?", o: ["Space in front of where your subject is looking or moving", "The room you film in first", "Space for the crew"], a: 0, why: "Lead room gives the subject space to look or move into, which feels natural." },
+    { q: "Why lock focus and exposure on a phone?", o: ["To save battery", "To make the video smaller", "So the picture doesn't keep changing during a shot"], a: 2, why: "Locking stops the phone from refocusing and changing brightness mid-shot." }
+  ]
+},
+{
+  id: 4, credit: "Light and sound by",
+  title: { en: "Light and sound", si: "ආලෝකය සහ ශබ්දය", ta: "ஒளியும் ஒலியும்" },
+  blurb: "Light faces well and record clean, clear sound.",
+  lessons: [
+  { id: "s4l1", title: "Lighting with what you have", mins: 5, video: "",
+    body: [
+      "Most film lighting starts with three lights. The <strong>key light</strong> is the main, brightest light on your subject. The <strong>fill light</strong> is softer, on the other side, and fills in the shadows. The <strong>back light</strong> sits behind the person and draws a thin outline that separates them from the background.",
+      "You don't need expensive lights. A window can be your key light, a white wall or sheet can bounce light back as your fill, and a lamp behind your actor can be the back light.",
+      "The balance sets the mood. Lots of fill gives a bright, cheerful look. Little or no fill gives deep shadows and drama, great for thrillers and night scenes."
+    ],
+    keys: ["Key is the main light, fill softens shadows, back light separates.", "Windows, lamps and white sheets work.", "Less fill means more drama."],
+    task: "Light a friend's face with only a window and a lamp. Take one bright photo and one dramatic, shadowy photo.",
+    academy: "At the Academy, you light real scenes with professional LED panels and grip equipment alongside a gaffer."
+  },
+  { id: "s4l2", title: "Using natural light", mins: 5, video: "",
+    body: [
+      "Daylight is free and beautiful if you use it well. Have your actor <strong>face a window</strong> for soft, flattering light. Cloudy days are great: the clouds spread light evenly, like a giant softbox.",
+      "Avoid filming people in harsh <strong>midday sun</strong>. It makes dark shadows under eyes and makes everyone squint. Move into shade, or film in <strong>golden hour</strong>: the hour after sunrise and before sunset, when light is warm and gentle.",
+      "Light has colour. Indoor bulbs are warm and orange; daylight is cooler and blue. Mixing them in one shot can look messy, so pick one, and switch off lights that don't match."
+    ],
+    keys: ["Face actors towards windows.", "Avoid midday sun; try golden hour or shade.", "Don't mix indoor bulbs and daylight."],
+    task: "Film the same short moment at midday and at golden hour. Compare the two.",
+    academy: "At the Academy, you'll learn to shape daylight on location with reflectors, flags and diffusion."
+  },
+  { id: "s4l3", title: "Recording clean sound", mins: 6, video: "",
+    body: [
+      "Audiences will forgive a slightly blurry picture. They will not forgive dialogue they can't hear. Sound is half of your film.",
+      "The golden rule: <strong>get the microphone close</strong> to the person speaking, but out of the shot. If you don't have a mic, put a second phone recording a voice memo in the actor's pocket or just out of frame. It will sound far better than the camera's microphone from across the room.",
+      "Pick quiet locations. Switch off fans and air conditioners and close windows. Listen with <strong>headphones</strong> while recording. At every location, record 30 seconds of silence called <strong>room tone</strong>. Editors use it to smooth over gaps."
+    ],
+    keys: ["Bad sound ruins good films.", "Get the mic close, out of shot. A second phone works.", "Record 30 seconds of room tone."],
+    task: "Record one line of dialogue with your phone across the room, then 30cm from the speaker. Listen with headphones.",
+    academy: "At the Academy, you record on set with professional boom mics, wireless mics and field recorders."
+  }],
+  quiz: [
+    { q: "What is the key light?", o: ["The main, brightest light on your subject", "A light used only at night", "The light behind the camera"], a: 0, why: "The key light is your main light source." },
+    { q: "When is golden hour?", o: ["Midday", "Around midnight", "Just after sunrise and just before sunset"], a: 2, why: "Low sun at those times gives warm, soft light." },
+    { q: "What is the best way to record clear dialogue on a budget?", o: ["Use the camera mic from far away", "Get a microphone or second phone close to the speaker", "Turn up the music"], a: 1, why: "Distance is the biggest enemy of clear sound." }
+  ]
+},
+{
+  id: 5, credit: "Edited by",
+  title: { en: "Editing and sharing", si: "සංස්කරණය සහ බෙදාගැනීම", ta: "படத்தொகுப்பும் பகிர்வும்" },
+  blurb: "Cut your film together, finish it and share it.",
+  lessons: [
+  { id: "s5l1", title: "Editing basics", mins: 6, video: "",
+    body: [
+      "Editing is where your film really comes together. Work in stages. First, put all your usable shots in script order (the <strong>assembly</strong>). Then cut it down until the story works (the <strong>rough cut</strong>). Finally, polish the timing of every cut (the <strong>fine cut</strong>).",
+      "Cut <strong>on action</strong>, in the middle of a movement like a door opening or a hand reaching, and the cut becomes almost invisible. In conversations, try letting someone's voice start just before we see them. This is a <strong>J-cut</strong>, and it makes scenes flow.",
+      "Be brave: if a shot doesn't move the story forward, cut it, even if you love it. Free apps are enough to start: CapCut or VN on a phone, DaVinci Resolve on a computer."
+    ],
+    keys: ["Assembly, rough cut, fine cut.", "Cut on action; try J-cuts.", "Cut anything that doesn't help the story."],
+    task: "Edit your tea-making footage into a 30-second sequence with at least one cut on action.",
+    academy: "At the Academy, you edit your own short film with feedback screenings and a professional editor reviewing your cut."
+  },
+  { id: "s5l2", title: "Music, colour and subtitles", mins: 5, video: "",
+    body: [
+      "Only use music you have permission to use. Popular songs can get your film muted or blocked online and rejected by festivals. Use free, royalty-free music libraries, or better, ask a musician friend to make something original.",
+      "<strong>Colour correction</strong> fixes shots so they match: brightness, contrast and colour. <strong>Colour grading</strong> comes after and gives the whole film a mood, such as warm and nostalgic or cold and tense. Don't overdo it; subtle looks best.",
+      "Add <strong>subtitles</strong>. With Sinhala, Tamil and English subtitles, your film can reach the whole country. Export as an MP4 file at the same frame rate you filmed in, and add a short credits list at the end."
+    ],
+    keys: ["Only use music you have permission for.", "Correct first, then grade.", "Subtitles in three languages reach more people."],
+    task: "Add simple subtitles and a gentle colour grade to your 30-second sequence, then export it.",
+    academy: "At the Academy, your finished film is professionally graded and mixed, then screened for an audience."
+  },
+  { id: "s5l3", title: "Your one-minute film challenge", mins: 4, video: "", challenge: true,
+    body: [
+      "You now know every step of making a film. Time to put it together. Your challenge: make a <strong>one-minute film</strong> on your phone, using everything from this course.",
+      "Keep it simple: one character, one location, one problem. Write a half-page script, plan your shots, light your actor with a window, record sound close up, and edit with at least one cut on action. Add subtitles and credits.",
+      "When it's done, share it with friends and family, post it online with <strong>#StoryToScreenLK</strong>, and add the link below if you'd like our team to see it. We watch every film, and some will be featured on our social media."
+    ],
+    keys: ["One character, one location, one problem.", "Use what you've learned in every section.", "Share it and send us the link."],
+    task: "Make your one-minute film, upload it to YouTube, Google Drive or Facebook, and paste the link below. (Optional, but we'd love to see it.)",
+    academy: "At the Academy, your one-minute film becomes a full short film, made with a crew, professional equipment and mentors."
+  }],
+  quiz: [
+    { q: "What is the correct order of editing stages?", o: ["Fine cut, assembly, rough cut", "Assembly, rough cut, fine cut", "Rough cut, fine cut, assembly"], a: 1, why: "Start with everything in order, cut it down, then polish." },
+    { q: "Why should you avoid popular songs in your film?", o: ["Your film can be muted, blocked or rejected without permission", "They are too long", "They don't work with subtitles"], a: 0, why: "Using music without permission breaks copyright rules." },
+    { q: "What is the difference between colour correction and grading?", o: ["They are the same", "Grading is done before filming", "Correction fixes and matches shots; grading adds a mood"], a: 2, why: "Correct first so shots match, then grade for the look." }
+  ]
+}
+];
+
+
+/* =========================================================
+   UI TEXT (Sinhala and Tamil: please have a native speaker review)
+   ========================================================= */
+const STR = {
+ en:{
+  nav_course:"The course",nav_academy:"Film Academy",nav_login:"Log in",nav_join:"Sign up free",nav_home:"My course",nav_cert:"Certificate",nav_profile:"Profile",nav_logout:"Log out",
+  hero_title:"Learn how films are made.",
+  hero_lead:"A free, short online course for O/L and A/L students and beginners. Five sections, fifteen bite-sized lessons, and a certificate and digital badge when you finish.",
+  hero_langs:"Learn in <b>සිංහල</b>, <b>தமிழ்</b> or <b>English</b>. All you need is a phone.",
+  cta_try:"Start lesson 1 now",cta_try_note:"No sign-up needed to try the first lesson.",cta_continue:"Continue my course",cta_academy:"About the Film Academy",
+  learn_h:"Five short sections",learn_p:"About 90 minutes of lessons in the order a real film gets made. Each lesson has a video, a short reading and a task you can do with your phone.",
+  how_h:"How it works",how1:"Try a lesson",how1p:"Start lesson 1 straight away. No account needed.",how2:"Save your progress",how2p:"Sign up in one step to keep going and track your progress.",how3:"Get certified",how3p:"Pass the five quick quizzes to download your certificate and badge.",how4:"Make real films",how4p:"Join the Film Academy in person to make your own short film with a crew.",
+  band_h:"The online course is the first scene. The Academy is where you make the film.",
+  band_p:"Online, you learn how filmmaking works. At the Academy, you do it: professional cameras, lights and sound, a crew of fellow students, and working filmmakers guiding you until your own short film is finished and screened.",
+  band_online:"Free online course",band_academy:"Film Academy (in person)",faq_h:"Questions",
+  join_h:"Create your free account",join_p:"Save your progress and get your certificate.",
+  name:"Full name",name_hint:"This is how your name will appear on your certificate.",email:"Email",password:"Password",pw_hint:"At least 6 characters.",show:"Show",hide:"Hide",
+  lang_label:"Learn in",optin:"Send me news about the in-person Film Academy, workshops near me and scholarships.",
+  create:"Create account and start",have_acc:"Already have an account?",no_acc:"New here?",or:"or",google:"Continue with Google",
+  login_h:"Welcome back",login_btn:"Log in",forgot:"Forgot password?",forgot_h:"Reset your password",forgot_p:"Enter your email and we'll send you a link to set a new password.",send_link:"Send reset link",
+  new_pw_h:"Choose a new password",set_pw:"Save new password",check_h:"Check your email",check_p:"We've sent a confirmation link to",check_p2:"Open it on this device to start learning. Can't find it? Check your spam folder.",
+  preview:"You're trying lesson 1. Create a free account at the end to save your progress.",
+  save_h:"Nice work. Save your progress?",save_p:"Create a free account to unlock the next 14 lessons, track your progress and earn your certificate.",save_btn:"Save progress and continue",
+  hello:"Hello",complete_word:"complete",up_next:"Up next",start:"Start",resume:"Continue",sections:"Course sections",quiz:"Quiz",
+  credits_h:"Your credits",credits_p:"Finish each section to add your name to the credits.",
+  about_h:"Help us plan workshops near you",about_p:"One tap, optional.",stage:"I am…",district:"District",save:"Save",not_now:"Not now",
+  mark_done:"Complete and continue",prev:"Previous",next:"Next",takeaways:"Key points",try_it:"Your task",at_academy:"At the Academy",watch:"Video lesson",min:"min",
+  lang_note:"Sinhala and Tamil versions of the lessons are on the way. Lesson text is shown in English for now.",video_soon:"The video for this lesson is coming soon. Read the lesson below.",
+  quiz_need:"Answer all three questions. You need 2 out of 3 to pass, and you can try as many times as you like.",quiz_check:"Check my answers",quiz_retry:"Try again",quiz_pass:"Section complete",quiz_fail:"Not quite yet",
+  cert_locked_h:"Your certificate is waiting",cert_locked_p:"Finish these to unlock your certificate and digital badge:",
+  dl_png:"Download certificate (PNG)",dl_pdf:"Download certificate (PDF)",dl_badge:"Download badge (PNG)",linkedin:"Add to LinkedIn",badge_h:"Your digital badge",
+  acad_h:"Make your own film at the Film Academy",acad_p:"The free course teaches you how films are made. At the Academy, you make one, with professional equipment, a crew and filmmakers mentoring you every step of the way.",
+  enq_h:"Ask about the Academy",enq_p:"Send your details and our team will call or WhatsApp you about the next intake, fees and scholarships. No payment and no commitment.",
+  phone:"Phone or WhatsApp",message:"Anything you'd like to ask?",enq_send:"Send my enquiry",enq_done:"Thank you. We've received your enquiry.",
+  profile_h:"Your profile",saved:"Changes saved.",film_link:"Link to your one-minute film",film_save:"Send my film"
+ },
+ si:{
+  nav_course:"පාඨමාලාව",nav_academy:"චිත්‍රපට ඇකඩමිය",nav_login:"පිවිසෙන්න",nav_join:"නොමිලේ ලියාපදිංචි වන්න",nav_home:"මගේ පාඨමාලාව",nav_cert:"සහතිකය",nav_profile:"පැතිකඩ",nav_logout:"ඉවත් වන්න",
+  hero_title:"චිත්‍රපටයක් හැදෙන හැටි ඉගෙන ගන්න.",
+  hero_lead:"සා/පෙළ සහ උ/පෙළ සිසුන්ට සහ ආරම්භකයන්ට නොමිලේ ලබාදෙන කෙටි මාර්ගගත පාඨමාලාවක්. කොටස් පහක්, කෙටි පාඩම් පහළොවක්, අවසානයේ සහතිකයක් සහ ඩිජිටල් ලාංඡනයක්.",
+  hero_langs:"<b>සිංහල</b>, <b>தமிழ்</b> හෝ <b>English</b> භාෂාවෙන් ඉගෙන ගන්න. ඔබට අවශ්‍ය වන්නේ ජංගම දුරකථනයක් පමණි.",
+  cta_try:"දැන්ම පළමු පාඩම අරඹන්න",cta_try_note:"පළමු පාඩම උත්සාහ කිරීමට ලියාපදිංචි වීම අවශ්‍ය නැත.",cta_continue:"මගේ පාඨමාලාව දිගටම",cta_academy:"චිත්‍රපට ඇකඩමිය ගැන",
+  learn_h:"කෙටි කොටස් පහක්",learn_p:"සැබෑ චිත්‍රපටයක් නිපදවෙන පිළිවෙළට විනාඩි 90ක පමණ පාඩම්. සෑම පාඩමකම වීඩියෝවක්, කෙටි කියවීමක් සහ දුරකථනයෙන් කළ හැකි කාර්යයක් ඇත.",
+  how_h:"එය ක්‍රියා කරන ආකාරය",how1:"පාඩමක් උත්සාහ කරන්න",how1p:"ගිණුමක් නැතිව වහාම පළමු පාඩම අරඹන්න.",how2:"ප්‍රගතිය සුරකින්න",how2p:"එක් පියවරකින් ලියාපදිංචි වී ඉදිරියට යන්න.",how3:"සහතිකය ලබාගන්න",how3p:"කෙටි ප්‍රශ්නාවලි පහ සමත් වී සහතිකය සහ ලාංඡනය බාගන්න.",how4:"සැබෑ චිත්‍රපට නිර්මාණය කරන්න",how4p:"කණ්ඩායමක් සමඟ ඔබේම කෙටි චිත්‍රපටයක් නිර්මාණය කිරීමට ඇකඩමියට එක්වන්න.",
+  band_h:"මාර්ගගත පාඨමාලාව පළමු දර්ශනයයි. ඇකඩමිය යනු ඔබ චිත්‍රපටය නිර්මාණය කරන තැනයි.",
+  band_p:"මාර්ගගතව, චිත්‍රපට නිර්මාණය ක්‍රියා කරන ආකාරය ඔබ ඉගෙන ගන්නවා. ඇකඩමියේදී ඔබ එය කරනවා: වෘත්තීය කැමරා, ආලෝක සහ ශබ්ද උපකරණ, සෙසු සිසුන්ගෙන් යුත් කණ්ඩායමක් සහ ඔබේ කෙටි චිත්‍රපටය නිම කර ප්‍රදර්ශනය වන තුරු මඟ පෙන්වන චිත්‍රපට නිර්මාණකරුවන්.",
+  band_online:"නොමිලේ මාර්ගගත පාඨමාලාව",band_academy:"චිත්‍රපට ඇකඩමිය (පෞද්ගලිකව)",faq_h:"ප්‍රශ්න",
+  join_h:"ඔබේ නොමිලේ ගිණුම සාදන්න",join_p:"ප්‍රගතිය සුරකින්න, සහතිකය ලබාගන්න.",
+  name:"සම්පූර්ණ නම",name_hint:"ඔබේ සහතිකයේ නම දිස්වන්නේ මෙලෙසයි.",email:"ඊමේල්",password:"මුරපදය",pw_hint:"අවම වශයෙන් අක්ෂර 6ක්.",show:"පෙන්වන්න",hide:"සඟවන්න",
+  lang_label:"ඉගෙනුම් භාෂාව",optin:"පෞද්ගලිකව පැවැත්වෙන චිත්‍රපට ඇකඩමිය, මට ආසන්න වැඩමුළු සහ ශිෂ්‍යත්ව ගැන පුවත් එවන්න.",
+  create:"ගිණුම සාදා අරඹන්න",have_acc:"දැනටමත් ගිණුමක් තිබේද?",no_acc:"අලුතින් පැමිණියාද?",or:"හෝ",google:"Google සමඟ ඉදිරියට",
+  login_h:"නැවත සාදරයෙන් පිළිගනිමු",login_btn:"පිවිසෙන්න",forgot:"මුරපදය අමතකද?",forgot_h:"මුරපදය යළි සකසන්න",forgot_p:"ඔබේ ඊමේල් ලිපිනය ඇතුළත් කරන්න. නව මුරපදයක් සැකසීමට සබැඳියක් එවන්නෙමු.",send_link:"සබැඳිය එවන්න",
+  new_pw_h:"නව මුරපදයක් තෝරන්න",set_pw:"නව මුරපදය සුරකින්න",check_h:"ඔබේ ඊමේල් පරීක්ෂා කරන්න",check_p:"අපි තහවුරු කිරීමේ සබැඳියක් එවා ඇත:",check_p2:"ඉගෙනීම ඇරඹීමට එය මෙම උපාංගයෙන් විවෘත කරන්න. හමු නොවේ නම් spam ෆෝල්ඩරය බලන්න.",
+  preview:"ඔබ පළමු පාඩම උත්සාහ කරමින් සිටී. ප්‍රගතිය සුරැකීමට අවසානයේ නොමිලේ ගිණුමක් සාදන්න.",
+  save_h:"නියමයි. ප්‍රගතිය සුරකිමුද?",save_p:"ඉතිරි පාඩම් 14 විවෘත කිරීමට, ප්‍රගතිය බැලීමට සහ සහතිකය ලබාගැනීමට නොමිලේ ගිණුමක් සාදන්න.",save_btn:"ප්‍රගතිය සුරකා ඉදිරියට",
+  hello:"ආයුබෝවන්",complete_word:"සම්පූර්ණයි",up_next:"ඊළඟට",start:"අරඹන්න",resume:"දිගටම",sections:"පාඨමාලා කොටස්",quiz:"ප්‍රශ්නාවලිය",
+  credits_h:"ඔබේ නාමාවලිය",credits_p:"නාමාවලියට ඔබේ නම එක් කිරීමට සෑම කොටසක්ම අවසන් කරන්න.",
+  about_h:"ඔබට ආසන්නයේ වැඩමුළු සැලසුම් කිරීමට අපට උදව් කරන්න",about_p:"එක් තට්ටුවක්, අනිවාර්ය නැත.",stage:"මම…",district:"දිස්ත්‍රික්කය",save:"සුරකින්න",not_now:"දැන් නොවේ",
+  mark_done:"සම්පූර්ණ කර ඉදිරියට",prev:"පෙර",next:"ඊළඟ",takeaways:"ප්‍රධාන කරුණු",try_it:"ඔබේ කාර්යය",at_academy:"ඇකඩමියේදී",watch:"වීඩියෝ පාඩම",min:"මිනි.",
+  lang_note:"පාඩම්වල සිංහල සහ දෙමළ සංස්කරණ ළඟදීම. දැනට පාඩම් පෙළ ඉංග්‍රීසියෙන් පෙන්වයි.",video_soon:"මෙම පාඩමේ වීඩියෝව ළඟදීම. පහත පාඩම කියවන්න.",
+  quiz_need:"ප්‍රශ්න තුනටම පිළිතුරු දෙන්න. සමත් වීමට 3න් 2ක් අවශ්‍යයි. ඕනෑම වාර ගණනක් උත්සාහ කළ හැක.",quiz_check:"පිළිතුරු පරීක්ෂා කරන්න",quiz_retry:"නැවත උත්සාහ කරන්න",quiz_pass:"කොටස සම්පූර්ණයි",quiz_fail:"තව ටිකයි",
+  cert_locked_h:"ඔබේ සහතිකය බලා සිටී",cert_locked_p:"සහතිකය සහ ඩිජිටල් ලාංඡනය ලබාගැනීමට මේවා අවසන් කරන්න:",
+  dl_png:"සහතිකය බාගන්න (PNG)",dl_pdf:"සහතිකය බාගන්න (PDF)",dl_badge:"ලාංඡනය බාගන්න (PNG)",linkedin:"LinkedIn වෙත එක් කරන්න",badge_h:"ඔබේ ඩිජිටල් ලාංඡනය",
+  acad_h:"චිත්‍රපට ඇකඩමියේදී ඔබේම චිත්‍රපටයක් නිර්මාණය කරන්න",acad_p:"නොමිලේ පාඨමාලාව චිත්‍රපට හැදෙන හැටි උගන්වයි. ඇකඩමියේදී ඔබ වෘත්තීය උපකරණ, කණ්ඩායමක් සහ සෑම පියවරකදීම මඟ පෙන්වන චිත්‍රපට නිර්මාණකරුවන් සමඟ එකක් නිර්මාණය කරනවා.",
+  enq_h:"ඇකඩමිය ගැන විමසන්න",enq_p:"ඔබේ විස්තර එවන්න. ඊළඟ බඳවා ගැනීම, ගාස්තු සහ ශිෂ්‍යත්ව ගැන අපේ කණ්ඩායම ඔබට අමතනු ඇත. ගෙවීමක් හෝ බැඳීමක් නැත.",
+  phone:"දුරකථන හෝ WhatsApp",message:"ඔබට විමසීමට යමක් තිබේද?",enq_send:"විමසීම යවන්න",enq_done:"ස්තූතියි. ඔබේ විමසීම අපට ලැබුණා.",
+  profile_h:"ඔබේ පැතිකඩ",saved:"වෙනස්කම් සුරැකුණා.",film_link:"ඔබේ විනාඩියක චිත්‍රපටයේ සබැඳිය",film_save:"මගේ චිත්‍රපටය යවන්න"
+ },
+ ta:{
+  nav_course:"பாடநெறி",nav_academy:"திரைப்பட அகாடமி",nav_login:"உள்நுழைக",nav_join:"இலவசமாகப் பதிவு செய்க",nav_home:"எனது பாடநெறி",nav_cert:"சான்றிதழ்",nav_profile:"சுயவிவரம்",nav_logout:"வெளியேறுக",
+  hero_title:"திரைப்படம் எப்படி உருவாகிறது என்று கற்றுக்கொள்ளுங்கள்.",
+  hero_lead:"சா/த மற்றும் உ/த மாணவர்களுக்கும் ஆரம்பநிலையாளர்களுக்குமான இலவசச் சிறு இணையவழிப் பாடநெறி. ஐந்து பிரிவுகள், பதினைந்து சிறு பாடங்கள், நிறைவில் சான்றிதழும் டிஜிட்டல் பதக்கமும்.",
+  hero_langs:"<b>සිංහල</b>, <b>தமிழ்</b> அல்லது <b>English</b> மொழியில் கற்கலாம். உங்களுக்குத் தேவை ஒரு கைபேசி மட்டுமே.",
+  cta_try:"இப்போதே பாடம் 1ஐத் தொடங்குக",cta_try_note:"முதல் பாடத்தை முயல பதிவு தேவையில்லை.",cta_continue:"எனது பாடநெறியைத் தொடர்க",cta_academy:"திரைப்பட அகாடமி பற்றி",
+  learn_h:"ஐந்து சிறு பிரிவுகள்",learn_p:"உண்மையான திரைப்படம் உருவாகும் வரிசையில் சுமார் 90 நிமிடப் பாடங்கள். ஒவ்வொரு பாடத்திலும் காணொளி, சிறு வாசிப்பு, கைபேசியில் செய்யக்கூடிய பணி உள்ளன.",
+  how_h:"இது எப்படிச் செயல்படுகிறது",how1:"ஒரு பாடத்தை முயலுங்கள்",how1p:"கணக்கு இல்லாமலே உடனே பாடம் 1ஐத் தொடங்குங்கள்.",how2:"முன்னேற்றத்தைச் சேமியுங்கள்",how2p:"ஒரே படியில் பதிவு செய்து தொடருங்கள்.",how3:"சான்றிதழ் பெறுக",how3p:"ஐந்து சிறு வினாடி வினாக்களில் தேறி சான்றிதழையும் பதக்கத்தையும் பதிவிறக்குங்கள்.",how4:"உண்மையான படங்களை உருவாக்குக",how4p:"குழுவுடன் உங்கள் குறும்படத்தை உருவாக்க அகாடமியில் நேரடியாக இணையுங்கள்.",
+  band_h:"இணையவழிப் பாடநெறி முதல் காட்சி. அகாடமியில்தான் நீங்கள் படத்தை உருவாக்குகிறீர்கள்.",
+  band_p:"இணையத்தில், திரைப்படத் தயாரிப்பு எப்படிச் செயல்படுகிறது என்று கற்கிறீர்கள். அகாடமியில், அதைச் செய்கிறீர்கள்: தொழில்முறைக் கேமராக்கள், ஒளி மற்றும் ஒலிக் கருவிகள், சக மாணவர் குழு, உங்கள் குறும்படம் நிறைவடைந்து திரையிடப்படும் வரை வழிகாட்டும் திரைப்படக் கலைஞர்கள்.",
+  band_online:"இலவச இணையவழிப் பாடநெறி",band_academy:"திரைப்பட அகாடமி (நேரடி)",faq_h:"கேள்விகள்",
+  join_h:"உங்கள் இலவசக் கணக்கை உருவாக்குங்கள்",join_p:"முன்னேற்றத்தைச் சேமித்து சான்றிதழைப் பெறுங்கள்.",
+  name:"முழுப் பெயர்",name_hint:"உங்கள் சான்றிதழில் பெயர் இவ்வாறே தோன்றும்.",email:"மின்னஞ்சல்",password:"கடவுச்சொல்",pw_hint:"குறைந்தது 6 எழுத்துகள்.",show:"காட்டு",hide:"மறை",
+  lang_label:"கற்கும் மொழி",optin:"நேரடி திரைப்பட அகாடமி, அருகிலுள்ள பட்டறைகள், புலமைப்பரிசில்கள் பற்றிய செய்திகளை எனக்கு அனுப்புங்கள்.",
+  create:"கணக்கை உருவாக்கித் தொடங்குக",have_acc:"ஏற்கனவே கணக்கு உள்ளதா?",no_acc:"புதியவரா?",or:"அல்லது",google:"Google மூலம் தொடர்க",
+  login_h:"மீண்டும் வருக",login_btn:"உள்நுழைக",forgot:"கடவுச்சொல் மறந்ததா?",forgot_h:"கடவுச்சொல்லை மீட்டமைக்க",forgot_p:"உங்கள் மின்னஞ்சலை உள்ளிடுங்கள். புதிய கடவுச்சொல்லை அமைக்க இணைப்பை அனுப்புவோம்.",send_link:"இணைப்பை அனுப்புக",
+  new_pw_h:"புதிய கடவுச்சொல்லைத் தேர்ந்தெடுக்கவும்",set_pw:"புதிய கடவுச்சொல்லைச் சேமிக்க",check_h:"உங்கள் மின்னஞ்சலைப் பாருங்கள்",check_p:"உறுதிப்படுத்தல் இணைப்பை அனுப்பியுள்ளோம்:",check_p2:"கற்கத் தொடங்க இதே சாதனத்தில் அதைத் திறக்கவும். கிடைக்கவில்லையா? spam கோப்புறையைப் பாருங்கள்.",
+  preview:"நீங்கள் பாடம் 1ஐ முயல்கிறீர்கள். முன்னேற்றத்தைச் சேமிக்க இறுதியில் இலவசக் கணக்கை உருவாக்குங்கள்.",
+  save_h:"அருமை. முன்னேற்றத்தைச் சேமிக்கலாமா?",save_p:"மீதமுள்ள 14 பாடங்களைத் திறக்க, முன்னேற்றத்தைக் கண்காணிக்க, சான்றிதழ் பெற இலவசக் கணக்கை உருவாக்குங்கள்.",save_btn:"சேமித்துத் தொடர்க",
+  hello:"வணக்கம்",complete_word:"நிறைவு",up_next:"அடுத்தது",start:"தொடங்குக",resume:"தொடர்க",sections:"பாடநெறிப் பிரிவுகள்",quiz:"வினாடி வினா",
+  credits_h:"உங்கள் பெயர்ப்பட்டியல்",credits_p:"பெயர்ப்பட்டியலில் உங்கள் பெயரைச் சேர்க்க ஒவ்வொரு பிரிவையும் முடியுங்கள்.",
+  about_h:"அருகில் பட்டறைகளைத் திட்டமிட உதவுங்கள்",about_p:"ஒரு தட்டல், விருப்பத்தேர்வு.",stage:"நான்…",district:"மாவட்டம்",save:"சேமிக்க",not_now:"இப்போது வேண்டாம்",
+  mark_done:"முடித்துத் தொடர்க",prev:"முந்தையது",next:"அடுத்து",takeaways:"முக்கியக் குறிப்புகள்",try_it:"உங்கள் பணி",at_academy:"அகாடமியில்",watch:"காணொளிப் பாடம்",min:"நிமி.",
+  lang_note:"பாடங்களின் சிங்கள, தமிழ்ப் பதிப்புகள் விரைவில். தற்போது பாட உரை ஆங்கிலத்தில் காட்டப்படுகிறது.",video_soon:"இந்தப் பாடத்தின் காணொளி விரைவில். கீழே உள்ள பாடத்தைப் படியுங்கள்.",
+  quiz_need:"மூன்று கேள்விகளுக்கும் விடையளியுங்கள். தேற 3இல் 2 தேவை. எத்தனை முறையும் முயலலாம்.",quiz_check:"விடைகளைச் சரிபார்க்க",quiz_retry:"மீண்டும் முயல்க",quiz_pass:"பிரிவு நிறைவு",quiz_fail:"இன்னும் சிறிது",
+  cert_locked_h:"உங்கள் சான்றிதழ் காத்திருக்கிறது",cert_locked_p:"சான்றிதழையும் டிஜிட்டல் பதக்கத்தையும் பெற இவற்றை முடியுங்கள்:",
+  dl_png:"சான்றிதழைப் பதிவிறக்குக (PNG)",dl_pdf:"சான்றிதழைப் பதிவிறக்குக (PDF)",dl_badge:"பதக்கத்தைப் பதிவிறக்குக (PNG)",linkedin:"LinkedIn இல் சேர்க்க",badge_h:"உங்கள் டிஜிட்டல் பதக்கம்",
+  acad_h:"திரைப்பட அகாடமியில் உங்கள் சொந்தப் படத்தை உருவாக்குங்கள்",acad_p:"இலவசப் பாடநெறி திரைப்படம் எப்படி உருவாகிறது என்று கற்பிக்கிறது. அகாடமியில், தொழில்முறைக் கருவிகள், ஒரு குழு, ஒவ்வொரு படியிலும் வழிகாட்டும் கலைஞர்களுடன் நீங்கள் ஒன்றை உருவாக்குகிறீர்கள்.",
+  enq_h:"அகாடமி பற்றி விசாரிக்க",enq_p:"உங்கள் விவரங்களை அனுப்புங்கள். அடுத்த சேர்க்கை, கட்டணம், புலமைப்பரிசில்கள் பற்றி எங்கள் குழு உங்களைத் தொடர்புகொள்ளும். கட்டணமோ கடப்பாடோ இல்லை.",
+  phone:"தொலைபேசி அல்லது WhatsApp",message:"ஏதாவது கேட்க விரும்புகிறீர்களா?",enq_send:"விசாரணையை அனுப்புக",enq_done:"நன்றி. உங்கள் விசாரணை கிடைத்தது.",
+  profile_h:"உங்கள் சுயவிவரம்",saved:"மாற்றங்கள் சேமிக்கப்பட்டன.",film_link:"உங்கள் ஒரு நிமிடப் படத்தின் இணைப்பு",film_save:"எனது படத்தை அனுப்புக"
+ }
+};
+
+const STAGES = ["Finished O/Ls","Doing or finished A/Ls","University or college","Already making videos","Working","Other"];
+const DISTRICTS = ["Ampara","Anuradhapura","Badulla","Batticaloa","Colombo","Galle","Gampaha","Hambantota","Jaffna","Kalutara","Kandy","Kegalle","Kilinochchi","Kurunegala","Mannar","Matale","Matara","Monaragala","Mullaitivu","Nuwara Eliya","Polonnaruwa","Puttalam","Ratnapura","Trincomalee","Vavuniya","Outside Sri Lanka"];
+
+/* flatten course into steps */
+const STEPS = [];
+SECTIONS.forEach(s=>{ s.lessons.forEach(l=>STEPS.push({id:l.id,type:"lesson",sec:s,lesson:l})); STEPS.push({id:"quiz"+s.id,type:"quiz",sec:s}); });
+const LESSONS = STEPS.filter(s=>s.type==="lesson");
+const stepById = id => STEPS.find(s=>s.id===id);
+const FREE_LESSON = LESSONS[0].id;
+
+/* =========================================================
+   HELPERS
+   ========================================================= */
+const local = {
+  get(k,d){ try{ const v=localStorage.getItem(k); return v==null?d:JSON.parse(v) }catch(e){ return d } },
+  set(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)) }catch(e){} }
+};
+const esc = s => String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const fmtDate = ts => new Date(ts).toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"});
+const validEmail = e => /^\S+@\S+\.\S+$/.test(e);
+function toast(msg){ const el=document.getElementById("toast"); el.textContent=msg; el.classList.add("show"); clearTimeout(toast._t); toast._t=setTimeout(()=>el.classList.remove("show"),3000); }
+function busy(btn,on){ if(!btn) return; btn.disabled=on; btn.classList.toggle("busy",on); }
+const friendly = e => {
+  const m=(e&&e.message)||String(e);
+  if(/Invalid login credentials/i.test(m)) return "That email and password don't match. Check them and try again.";
+  if(/Email not confirmed/i.test(m)) return "Confirm your email first. Check your inbox for the link we sent.";
+  if(/already registered|already exists/i.test(m)) return "An account with this email already exists. Log in instead.";
+  if(/Password should be/i.test(m)) return "Use a password of at least 6 characters.";
+  if(/rate limit|too many/i.test(m)) return "Too many attempts. Wait a minute and try again.";
+  if(/Failed to fetch|NetworkError/i.test(m)) return "No connection. Check your internet and try again.";
+  return m;
+};
+
+/* =========================================================
+   DATA LAYER: Supabase, or a local demo when not configured
+   ========================================================= */
+function makeSupabaseApi(){
+  const sb = supabase.createClient(CONFIG.supabaseUrl, CONFIG.supabaseAnonKey, { auth:{ persistSession:true, autoRefreshToken:true, detectSessionInUrl:true } });
+  let uid=null;
+  return {
+    async session(){ const {data}=await sb.auth.getSession(); uid=data.session?.user?.id||null; return data.session?{id:uid,email:data.session.user.email}:null; },
+    onAuth(cb){ sb.auth.onAuthStateChange((ev,s)=>{ uid=s?.user?.id||null; cb(ev,s?{id:uid,email:s.user.email}:null); }); },
+    async signUp({name,email,password,lang,optin}){
+      const {data,error}=await sb.auth.signUp({email,password,options:{emailRedirectTo:CONFIG.siteUrl,data:{full_name:name,language:lang,academy_optin:optin}}});
+      if(error) throw error;
+      if(data.user && Array.isArray(data.user.identities) && data.user.identities.length===0) throw new Error("already registered");
+      uid=data.session?.user?.id||null;
+      return {needsConfirm:!data.session};
+    },
+    async signIn(email,password){ const {data,error}=await sb.auth.signInWithPassword({email,password}); if(error) throw error; uid=data.user.id; },
+    async google(){ const {error}=await sb.auth.signInWithOAuth({provider:"google",options:{redirectTo:CONFIG.siteUrl}}); if(error) throw error; },
+    async signOut(){ await sb.auth.signOut(); uid=null; },
+    async resetPassword(email){ const {error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:CONFIG.siteUrl}); if(error) throw error; },
+    async updatePassword(pw){ const {error}=await sb.auth.updateUser({password:pw}); if(error) throw error; },
+    async load(){
+      const [p,l,q,c]=await Promise.all([
+        sb.from("profiles").select("*").eq("id",uid).maybeSingle(),
+        sb.from("lesson_progress").select("lesson_id"),
+        sb.from("quiz_attempts").select("section,score,passed"),
+        sb.from("certificates").select("*").maybeSingle()
+      ]);
+      for(const r of [p,l,q,c]) if(r.error) throw r.error;
+      return { profile:p.data||{full_name:"",language:"en"}, done:(l.data||[]).map(r=>r.lesson_id), attempts:q.data||[], cert:c.data||null };
+    },
+    async completeLesson(id){ const {error}=await sb.from("lesson_progress").upsert({user_id:uid,lesson_id:id},{onConflict:"user_id,lesson_id",ignoreDuplicates:true}); if(error) throw error; },
+    async submitQuiz(section,answers){ const {data,error}=await sb.rpc("submit_quiz",{p_section:section,p_answers:answers}); if(error) throw error; return data; },
+    async issueCertificate(){ const {data,error}=await sb.rpc("issue_certificate"); if(error) throw error; return data; },
+    async updateProfile(patch){ const {error}=await sb.from("profiles").update(patch).eq("id",uid); if(error) throw error; },
+    async submitEnquiry(row){ const {error}=await sb.from("academy_enquiries").insert(row); if(error) throw error; },
+    async verify(id){ const {data,error}=await sb.rpc("verify_certificate",{p_id:id}); if(error) throw error; return data&&data[0]||null; }
+  };
+}
+function makeDemoApi(){
+  const db=()=>local.get("sts_demo_db",{users:{},enquiries:[]}); const put=d=>local.set("sts_demo_db",d);
+  let cur=local.get("sts_demo_session",null); let authCb=()=>{};
+  const U=()=>db().users[cur];
+  const mut=f=>{const d=db(); f(d.users[cur],d); put(d);};
+  const hash=s=>{let h=5381; for(const c of s) h=((h<<5)+h+c.charCodeAt(0))|0; return "d"+h;};
+  return {
+    async session(){ return cur&&U()?{id:cur,email:cur}:null; },
+    onAuth(cb){ authCb=cb; },
+    async signUp({name,email,password,lang,optin}){
+      const d=db(); if(d.users[email]) throw new Error("already registered");
+      d.users[email]={pw:hash(email+password),profile:{full_name:name,language:lang,academy_optin:optin,created_at:new Date().toISOString()},done:[],attempts:[],cert:null}; put(d);
+      cur=email; local.set("sts_demo_session",cur); return {needsConfirm:false};
+    },
+    async signIn(email,password){ const u=db().users[email]; if(!u||u.pw!==hash(email+password)) throw new Error("Invalid login credentials"); cur=email; local.set("sts_demo_session",cur); },
+    async google(){ throw new Error("Google sign-in works once Supabase is connected."); },
+    async signOut(){ cur=null; local.set("sts_demo_session",null); },
+    async resetPassword(){ },
+    async updatePassword(){ },
+    async load(){ const u=U(); return {profile:u.profile,done:u.done,attempts:u.attempts,cert:u.cert}; },
+    async completeLesson(id){ mut(u=>{ if(!u.done.includes(id)) u.done.push(id); }); },
+    async submitQuiz(section,answers){
+      const qz=SECTIONS.find(s=>s.id===section).quiz; const score=qz.filter((q,i)=>answers[i]===q.a).length; const passed=score*3>=qz.length*2;
+      mut(u=>u.attempts.push({section,score,passed})); return {score,total:qz.length,passed};
+    },
+    async issueCertificate(){
+      const u=U(); if(u.cert) return u.cert;
+      if(!LESSONS.every(l=>u.done.includes(l.id))) throw new Error("Lessons not finished");
+      if(!SECTIONS.every(s=>u.attempts.some(a=>a.section===s.id&&a.passed))) throw new Error("Quizzes not passed");
+      const c="ABCDEF0123456789"; let r=""; for(let i=0;i<8;i++) r+=c[Math.floor(Math.random()*16)];
+      const cert={id:`STS-${new Date().getFullYear()}-${r}`,full_name:u.profile.full_name,issued_at:new Date().toISOString()};
+      mut(x=>x.cert=cert); return cert;
+    },
+    async updateProfile(patch){ mut(u=>Object.assign(u.profile,patch)); },
+    async submitEnquiry(row){ const d=db(); d.enquiries.push({...row,created_at:new Date().toISOString()}); put(d); },
+    async verify(id){ const u=Object.values(db().users).find(u=>u.cert&&u.cert.id===String(id).trim().toUpperCase()); return u?{full_name:u.cert.full_name,issued_at:u.cert.issued_at}:null; }
+  };
+}
+const api = DEMO || !window.supabase ? makeDemoApi() : makeSupabaseApi();
+
+/* =========================================================
+   STATE
+   ========================================================= */
+const S = { user:null, profile:null, done:new Set(), passed:new Set(), best:{}, cert:null, ready:false, recovery:false };
+let guestLang = local.get("sts_lang","en");
+const lang = ()=> S.profile?.language || guestLang;
+const t = k => (STR[lang()]&&STR[lang()][k]) || STR.en[k] || k;
+const st = s => s.title[lang()] || s.title.en;
+const firstName = ()=> (S.profile?.full_name||"").split(" ")[0] || "";
+const isDone = id => id.startsWith("quiz") ? S.passed.has(+id.slice(4)) : S.done.has(id);
+const doneCount = ()=> STEPS.filter(s=>isDone(s.id)).length;
+const pct = ()=> Math.round(doneCount()/STEPS.length*100);
+const nextStep = ()=> STEPS.find(s=>!isDone(s.id));
+const secDone = s => STEPS.filter(x=>x.sec===s).every(x=>isDone(x.id));
+const allDone = ()=> STEPS.every(s=>isDone(s.id));
+const guestDone = ()=> local.get("sts_guest_done",[]);
+
+async function loadUser(){
+  const d=await api.load();
+  S.profile=d.profile; S.done=new Set(d.done); S.cert=d.cert;
+  S.passed=new Set(); S.best={};
+  d.attempts.forEach(a=>{ if(a.passed) S.passed.add(a.section); S.best[a.section]=Math.max(S.best[a.section]||0,a.score); });
+  // carry over a lesson finished before signing up
+  const g=guestDone().filter(id=>!S.done.has(id));
+  for(const id of g){ try{ await api.completeLesson(id); S.done.add(id); }catch(e){} }
+  if(g.length) local.set("sts_guest_done",[]);
+}
+async function ensureCertificate(){
+  if(S.cert || !allDone()) return;
+  try{ S.cert=await api.issueCertificate(); }catch(e){ console.warn(e); }
+}
+
+/* =========================================================
+   ROUTER & NAV
+   ========================================================= */
+const app=document.getElementById("app");
+const go = h => { if(location.hash===h) render(); else location.hash=h; };
+
+function renderNav(route){
+  const nav=document.getElementById("nav"); const a=(h,l,on)=>`<a href="${h}" class="${on?"on":""}">${l}</a>`;
+  const sel=`<select class="lang" id="langSel" aria-label="Language">${[["si","සිංහල"],["ta","தமிழ்"],["en","English"]].map(([v,n])=>`<option value="${v}" ${lang()===v?"selected":""}>${n}</option>`).join("")}</select>`;
+  nav.innerHTML = S.user
+    ? a("#/home",t("nav_home"),["home","lesson","quiz"].includes(route))+a("#/certificate",t("nav_cert"),route==="certificate")+a("#/academy",t("nav_academy"),route==="academy")+a("#/profile",t("nav_profile"),route==="profile")+sel
+    : a("#/",t("nav_course"),route==="")+a("#/academy",t("nav_academy"),route==="academy")+a("#/login",t("nav_login"),route==="login")+sel+`<a class="btn btn-primary" href="#/join">${t("nav_join")}</a>`;
+  document.getElementById("langSel").onchange=async e=>{
+    const v=e.target.value;
+    if(S.user){ S.profile.language=v; api.updateProfile({language:v}).catch(()=>{}); } else { guestLang=v; local.set("sts_lang",v); }
+    render();
+  };
+  nav.classList.remove("open"); document.getElementById("menuBtn").setAttribute("aria-expanded","false");
+}
+document.getElementById("menuBtn").onclick=e=>{const n=document.getElementById("nav");n.classList.toggle("open");e.currentTarget.setAttribute("aria-expanded",n.classList.contains("open"))};
+
+function render(){
+  if(!S.ready) return;
+  const raw=location.hash.replace(/^#\/?/,"");
+  if(/access_token|error_description|type=recovery/.test(raw)) return; // Supabase is handling an email link
+  const [route,param]=raw.split("/");
+  const authOnly=["home","quiz","certificate","profile"];
+  if(S.recovery && route!=="reset"){ location.hash="#/reset"; return; }
+  if(authOnly.includes(route) && !S.user){ location.hash="#/join"; return; }
+  if(route==="lesson" && !S.user && param!==FREE_LESSON){ location.hash="#/join"; return; }
+  if(S.user && ["join","login","check"].includes(route)){ location.hash="#/home"; return; }
+  if(S.user && route==="" ){ /* logged-in visitors can still see the landing page */ }
+  document.documentElement.lang=lang();
+  renderNav(route||"");
+  const V={join:vJoin,login:vLogin,forgot:vForgot,reset:vReset,check:vCheck,home:vHome,lesson:vLesson,quiz:vQuiz,certificate:vCertificate,academy:vAcademy,profile:vProfile,verify:vVerify};
+  app.innerHTML=(V[route]||vLanding)(param);
+  const B={join:bindAuthForm,lesson:bindLesson,login:bindLogin,forgot:bindForgot,reset:bindReset,home:bindHome,quiz:bindQuiz,certificate:bindCertificate,academy:bindAcademy,profile:bindProfile};
+  B[route]&&B[route](param);
+  if(render._last!==location.hash){ window.scrollTo(0,0); render._last=location.hash; }
+}
+window.addEventListener("hashchange",render);
+
+/* =========================================================
+   SHARED PIECES
+   ========================================================= */
+function slate(){
+  const d=new Date();
+  return `<div class="slate" aria-hidden="true"><div class="clap"><div class="arm snap"></div><div class="bar"></div></div>
+    <div class="board">
+      <div class="row"><div class="cell full"><div class="lbl">Production</div><div class="val big">From Story to Screen</div></div></div>
+      <div class="row"><div class="cell"><div class="lbl">Roll</div><div class="val">01</div></div><div class="cell"><div class="lbl">Scene</div><div class="val">Your first film</div></div></div>
+      <div class="row"><div class="cell"><div class="lbl">Director</div><div class="val">${esc(firstName()||"You")}</div></div><div class="cell"><div class="lbl">Date</div><div class="val">${d.getDate()}/${d.getMonth()+1}/${String(d.getFullYear()).slice(2)}</div></div></div>
+    </div></div>`;
+}
+function filmstrip(){
+  const nx=nextStep(); let prev=null;
+  const frames=STEPS.map(s=>{
+    const c=["frame"]; if(isDone(s.id))c.push("done"); if(nx&&nx.id===s.id)c.push("cur"); if(prev&&prev!==s.sec)c.push("gap"); prev=s.sec;
+    const label=s.type==="quiz"?`${t("quiz")}: ${st(s.sec)}`:s.lesson.title;
+    return `<a class="${c.join(" ")}" href="#/${s.type==="quiz"?"quiz/"+s.sec.id:"lesson/"+s.id}" title="${esc(label)}" aria-label="${esc(label)}">${s.type==="quiz"?"Q":""}</a>`;
+  }).join("");
+  return `<div class="strip"><div class="frames">${frames}</div></div>
+  <div class="strip-legend"><span><i style="background:#E8A23A"></i>${t("complete_word")}</span><span><i style="background:var(--strip-frame);outline:2px solid #9FBEF0"></i>${t("up_next")}</span><span><i style="background:var(--strip-frame)"></i>Q = ${t("quiz")}</span></div>`;
+}
+const stepHref = s => s.type==="quiz" ? `#/quiz/${s.sec.id}` : `#/lesson/${s.id}`;
+const stepTitle = s => s.type==="quiz" ? `${t("quiz")}: ${st(s.sec)}` : s.lesson.title;
+const footer = ()=>`<footer><div class="wrap"><span>© ${new Date().getFullYear()} ${esc(CONFIG.org)}</span><span><a href="#/academy">${t("nav_academy")}</a> &nbsp; <a href="#/verify">Verify a certificate</a> &nbsp; <a href="mailto:${esc(CONFIG.academy.email)}">${esc(CONFIG.academy.email)}</a></span></div></footer>`;
+
+/* sign-up form, used on the join page and at the end of the free lesson */
+function signupForm(btnLabel){
+  return `<form id="authForm" novalidate>
+    ${CONFIG.googleLogin?`<button type="button" class="btn btn-google" data-a="google"><svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.6 5.4 2.7 13.3l7.9 6.1C12.5 13.6 17.8 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.7 6c4.5-4.2 6.9-10.3 6.9-17.7z"/><path fill="#FBBC05" d="M10.6 28.6c-.5-1.4-.8-3-.8-4.6s.3-3.2.8-4.6l-7.9-6.1C1 16.6 0 20.2 0 24s1 7.4 2.7 10.7l7.9-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.7-6c-2.1 1.4-4.9 2.3-8.2 2.3-6.2 0-11.5-4.1-13.4-9.9l-7.9 6.1C6.6 42.6 14.6 48 24 48z"/></svg>${t("google")}</button><div class="or">${t("or")}</div>`:""}
+    <div class="field"><label for="fn">${t("name")}</label><input id="fn" autocomplete="name" required><div class="hint">${t("name_hint")}</div></div>
+    <div class="field"><label for="fe">${t("email")}</label><input id="fe" type="email" inputmode="email" autocomplete="email" required></div>
+    <div class="field"><label for="fp">${t("password")}</label><div class="pw"><input id="fp" type="password" autocomplete="new-password" minlength="6" required><button type="button" data-a="pwToggle">${t("show")}</button></div><div class="hint">${t("pw_hint")}</div></div>
+    <div class="field"><span class="lbl-text">${t("lang_label")}</span><div class="seg">${[["si","සිංහල"],["ta","தமிழ்"],["en","English"]].map(([v,n])=>`<label><input type="radio" name="fl" value="${v}" ${lang()===v?"checked":""}>${n}</label>`).join("")}</div></div>
+    <label class="check"><input type="checkbox" id="fo"><span>${t("optin")}</span></label>
+    <div class="error" id="ferr" role="alert"></div>
+    <button class="btn btn-primary btn-block" id="fsubmit">${btnLabel}</button>
+  </form>`;
+}
+function bindAuthForm(){
+  const f=document.getElementById("authForm"); if(!f) return;
+  f.querySelector('input[name=fl]') && f.querySelectorAll('input[name=fl]').forEach(r=>r.onchange=()=>{ guestLang=r.value; local.set("sts_lang",guestLang); });
+  f.onsubmit=async e=>{
+    e.preventDefault();
+    const name=f.fn.value.trim(), email=f.fe.value.trim().toLowerCase(), password=f.fp.value, err=document.getElementById("ferr");
+    const lng=(f.querySelector('input[name=fl]:checked')||{}).value||"en", optin=f.fo.checked;
+    err.textContent="";
+    if(name.length<2) return err.textContent="Enter your full name as you'd like it on your certificate.";
+    if(!validEmail(email)) return err.textContent="Enter a valid email address, like name@example.com.";
+    if(password.length<6) return err.textContent="Use a password of at least 6 characters.";
+    const btn=document.getElementById("fsubmit"); busy(btn,true);
+    try{
+      const r=await api.signUp({name,email,password,lang:lng,optin});
+      if(r.needsConfirm){ local.set("sts_pending_email",email); go("#/check"); return; }
+      await afterSignIn(true);
+    }catch(ex){ err.textContent=friendly(ex); busy(btn,false); }
+  };
+}
+async function afterSignIn(isNew){
+  S.user=await api.session(); await loadUser();
+  const nx=nextStep();
+  if(isNew){ go(nx?stepHref(nx):"#/home"); setTimeout(()=>toast(`Welcome, ${firstName()}. Your progress is saved.`),250); }
+  else go("#/home");
+}
+
+/* =========================================================
+   VIEWS
+   ========================================================= */
+function vLanding(){
+  const shots=SECTIONS.map(s=>`<div class="shot"><span class="n">${s.id}</span><h3>${esc(st(s))}</h3><p>${esc(s.blurb)}</p></div>`).join("");
+  return `<section class="hero"><div class="wrap"><div>
+      <h1>${t("hero_title")}</h1><p class="lead">${t("hero_lead")}</p>
+      <div class="ctas">${S.user?`<a class="btn btn-primary" href="#/home">${t("cta_continue")}</a>`:`<a class="btn btn-primary" href="#/lesson/${FREE_LESSON}">${t("cta_try")}</a>`}<a class="btn btn-ghost" href="#/academy">${t("cta_academy")}</a>
+      ${S.user?"":`<span class="cta-note">${t("cta_try_note")}</span>`}</div>
+      <p class="langs-note">${t("hero_langs")}</p></div>${slate()}</div></section>
+  <section class="sec"><div class="wrap"><div class="sec-head"><h2>${t("learn_h")}</h2><p class="muted">${t("learn_p")}</p></div><div class="shotlist">${shots}</div></div></section>
+  <section class="sec"><div class="wrap"><div class="sec-head"><h2>${t("how_h")}</h2></div>
+    <ol class="steps"><li><b>${t("how1")}</b><span class="muted">${t("how1p")}</span></li><li><b>${t("how2")}</b><span class="muted">${t("how2p")}</span></li><li><b>${t("how3")}</b><span class="muted">${t("how3p")}</span></li><li><b>${t("how4")}</b><span class="muted">${t("how4p")}</span></li></ol></div></section>
+  <section class="academy-band"><div class="wrap"><div><h2>${t("band_h")}</h2><p>${t("band_p")}</p>
+      <div class="ctas"><a class="btn btn-primary" href="#/academy">${t("cta_academy")}</a>${S.user?"":`<a class="btn btn-ghost" href="#/lesson/${FREE_LESSON}">${t("cta_try")}</a>`}</div></div>
+    <div class="compare" role="table" aria-label="Online course compared with the Film Academy">
+      <div role="row"><span role="columnheader">${t("band_online")}</span><span role="columnheader">${t("band_academy")}</span></div>
+      <div role="row"><span>Learn how each role works</span><span>Do each role on a real set</span></div>
+      <div role="row"><span>Phone exercises</span><span>Professional cameras, lights and sound</span></div>
+      <div role="row"><span>Study on your own</span><span>Work in a crew with other students</span></div>
+      <div role="row"><span>Quizzes</span><span>Mentoring from working filmmakers</span></div>
+      <div role="row"><span>Certificate and badge</span><span>Your own finished, screened short film</span></div>
+    </div></div></section>
+  <section class="sec faq"><div class="wrap" style="max-width:820px"><h2>${t("faq_h")}</h2>
+    <details><summary>Is it really free?</summary><p>Yes. The course, certificate and digital badge are all free.</p></details>
+    <details><summary>Who is it for?</summary><p>Students who have finished their O/Ls or are doing their A/Ls, and anyone who wants to start making films or videos. No experience needed.</p></details>
+    <details><summary>Do I need a camera?</summary><p>No. Every task works with a smartphone.</p></details>
+    <details><summary>How long does it take?</summary><p>About 90 minutes of lessons, plus the practical tasks. Go at your own pace. Your progress is saved.</p></details>
+    <details><summary>What is the certificate?</summary><p>A certificate of completion and digital badge from ${esc(CONFIG.org)} that you can add to your CV, LinkedIn, portfolio or social media. Each one has an ID anyone can verify on this website. It is a record of learning, not a government or university qualification.</p></details>
+    <details><summary>How is the Film Academy different?</summary><p>The Academy is our in-person, practical programme where you make your own short film with professional equipment, a crew and mentors. The online course is the first step towards it.</p></details>
+  </div></section>${footer()}`;
+}
+
+function vJoin(){
+  return `<div class="wrap"><div class="auth panel"><h1 style="font-size:2rem">${t("join_h")}</h1><p class="muted">${t("join_p")}</p>${signupForm(t("create"))}
+    <p class="small muted" style="margin:16px 0 0">${t("have_acc")} <a href="#/login">${t("nav_login")}</a></p></div></div>`;
+}
+function vLogin(){
+  return `<div class="wrap"><div class="auth panel"><h1 style="font-size:2rem">${t("login_h")}</h1>
+    <form id="loginForm" novalidate>
+      ${CONFIG.googleLogin?`<button type="button" class="btn btn-google" data-a="google">${t("google")}</button><div class="or">${t("or")}</div>`:""}
+      <div class="field"><label for="le">${t("email")}</label><input id="le" type="email" inputmode="email" autocomplete="email" required></div>
+      <div class="field"><label for="lp">${t("password")}</label><div class="pw"><input id="lp" type="password" autocomplete="current-password" required><button type="button" data-a="pwToggle">${t("show")}</button></div></div>
+      <div class="error" id="lerr" role="alert"></div>
+      <button class="btn btn-primary btn-block" id="lsubmit">${t("login_btn")}</button>
+    </form>
+    <p class="small" style="margin:14px 0 0"><a href="#/forgot">${t("forgot")}</a></p>
+    <p class="small muted" style="margin:8px 0 0">${t("no_acc")} <a href="#/lesson/${FREE_LESSON}">${t("cta_try")}</a> or <a href="#/join">${t("nav_join")}</a></p></div></div>`;
+}
+function bindLogin(){
+  const f=document.getElementById("loginForm");
+  f.onsubmit=async e=>{ e.preventDefault(); const err=document.getElementById("lerr"), btn=document.getElementById("lsubmit");
+    const email=f.le.value.trim().toLowerCase(); if(!validEmail(email)) return err.textContent="Enter the email you signed up with.";
+    busy(btn,true); try{ await api.signIn(email,f.lp.value); await afterSignIn(false); }catch(ex){ err.textContent=friendly(ex); busy(btn,false); } };
+}
+function vForgot(){
+  return `<div class="wrap"><div class="auth panel"><h1 style="font-size:2rem">${t("forgot_h")}</h1><p class="muted">${t("forgot_p")}</p>
+    <form id="forgotForm" novalidate><div class="field"><label for="re">${t("email")}</label><input id="re" type="email" autocomplete="email"></div><div class="error" id="rerr" role="alert"></div><button class="btn btn-primary btn-block" id="rsubmit">${t("send_link")}</button></form>
+    <p class="small" style="margin:14px 0 0"><a href="#/login">${t("nav_login")}</a></p></div></div>`;
+}
+function bindForgot(){
+  const f=document.getElementById("forgotForm");
+  f.onsubmit=async e=>{ e.preventDefault(); const email=f.re.value.trim().toLowerCase(), err=document.getElementById("rerr"), btn=document.getElementById("rsubmit");
+    if(!validEmail(email)) return err.textContent="Enter a valid email address.";
+    busy(btn,true); try{ await api.resetPassword(email); f.innerHTML=`<div class="done-msg"><p style="margin:0">If an account exists for ${esc(email)}, a reset link is on its way. Open it on this device.</p></div>`; }catch(ex){ err.textContent=friendly(ex); busy(btn,false); } };
+}
+function vReset(){
+  return `<div class="wrap"><div class="auth panel"><h1 style="font-size:2rem">${t("new_pw_h")}</h1>
+    <form id="resetForm" novalidate><div class="field"><label for="np">${t("password")}</label><div class="pw"><input id="np" type="password" autocomplete="new-password"><button type="button" data-a="pwToggle">${t("show")}</button></div><div class="hint">${t("pw_hint")}</div></div><div class="error" id="nerr" role="alert"></div><button class="btn btn-primary btn-block" id="nsubmit">${t("set_pw")}</button></form></div></div>`;
+}
+function bindReset(){
+  const f=document.getElementById("resetForm");
+  f.onsubmit=async e=>{ e.preventDefault(); const err=document.getElementById("nerr"), btn=document.getElementById("nsubmit");
+    if(f.np.value.length<6) return err.textContent="Use a password of at least 6 characters.";
+    busy(btn,true); try{ await api.updatePassword(f.np.value); S.recovery=false; toast("Password updated."); await afterSignIn(false); }catch(ex){ err.textContent=friendly(ex); busy(btn,false); } };
+}
+function vCheck(){
+  const email=local.get("sts_pending_email","");
+  return `<div class="wrap"><div class="auth panel" style="text-align:center"><div style="font-size:2.6rem">✉️</div><h1 style="font-size:2rem">${t("check_h")}</h1>
+    <p>${t("check_p")} <b>${esc(email)}</b>.</p><p class="muted">${t("check_p2")}</p><p class="small"><a href="#/login">${t("nav_login")}</a></p></div></div>`;
+}
+
+function vHome(){
+  const nx=nextStep(), p=pct(), prof=S.profile||{};
+  const nextHtml = nx
+    ? `<div class="next"><div><div class="k">${t("up_next")}: ${esc(st(nx.sec))}</div><h3>${esc(stepTitle(nx))}</h3></div><a class="btn btn-primary" href="${stepHref(nx)}">${doneCount()?t("resume"):t("start")}</a></div>`
+    : `<div class="next"><div><div class="k">${t("complete_word")}</div><h3>You've finished the course. Your certificate is ready.</h3></div><a class="btn btn-primary" href="#/certificate">${t("nav_cert")}</a></div>`;
+  const askAbout = !prof.stage && !local.get("sts_about_dismissed_"+S.user.id,false) && doneCount()>=1;
+  const about = askAbout ? `<div class="about" id="aboutCard"><h3>${t("about_h")}</h3><p class="small muted" style="margin:0">${t("about_p")}</p>
+    <div class="chips" style="margin-top:12px">${STAGES.map(s=>`<label class="chip"><input type="radio" name="stage" value="${esc(s)}">${esc(s)}</label>`).join("")}</div>
+    <div class="row"><label class="small" for="dist">${t("district")}</label><select id="dist"><option value="">Choose</option>${DISTRICTS.map(d=>`<option>${d}</option>`).join("")}</select>
+    <button class="btn btn-ink btn-sm" data-a="saveAbout">${t("save")}</button><button class="btn btn-link" data-a="dismissAbout">${t("not_now")}</button></div></div>` : "";
+  const mods=SECTIONS.map(s=>{
+    const steps=STEPS.filter(x=>x.sec===s), d=steps.filter(x=>isDone(x.id)).length, c=d===steps.length;
+    return `<details class="mod ${c?"complete":""}" ${nx&&nx.sec===s?"open":""}><summary><span class="n">${s.id}</span><div><h3>${esc(st(s))}</h3><div class="meta">${esc(s.blurb)}</div></div><span class="tally">${c?"✓ ":""}${d}/${steps.length}</span></summary>
+      <ul>${steps.map(x=>`<li><a href="${stepHref(x)}"><span class="tick ${isDone(x.id)?"on":""}">${isDone(x.id)?"✓":""}</span><span class="t">${esc(x.type==="quiz"?t("quiz"):x.lesson.title)}</span><span class="d">${x.type==="quiz"?(S.best[s.id]!=null?S.best[s.id]+"/3":"3 Q"):x.lesson.mins+" "+t("min")}</span></a></li>`).join("")}</ul></details>`;
+  }).join("");
+  const credits=SECTIONS.map(s=>`<div class="role">${esc(s.credit)}</div><div class="who ${secDone(s)?"":"todo"}">${secDone(s)?esc(prof.full_name):"…"}</div>`).join("");
+  const acadMsg = p<34 ? "The free course shows you how films are made. At the Academy, you make one: in person, with a crew and mentors."
+    : p<100 ? `You're ${p}% through. Many students who finish go on to make their first real short film at the Academy. Next intake: ${esc(CONFIG.academy.nextIntake)}.`
+    : "You've finished the course. The next step is making your own short film at the Academy.";
+  return `<div class="wrap dash">
+    <div class="dash-head"><div><p class="muted" style="margin:0 0 4px">${esc(CONFIG.courseTitle)}</p><h1>${t("hello")}, ${esc(firstName())}</h1></div><div class="pct">${p}%<small>${t("complete_word")}</small></div></div>
+    ${filmstrip()}
+    <div class="dash-grid"><div>${nextHtml}${about}<h2 style="font-size:1.4rem">${t("sections")}</h2><div class="mods">${mods}</div></div>
+      <aside><div class="credits"><h3>${t("credits_h")}</h3>${credits}<p>${t("credits_p")}</p></div>
+        <div class="acad-card"><h3>${t("nav_academy")}</h3><p>${acadMsg}</p><a class="btn btn-ink btn-sm" href="#/academy">${prof.academy_enquiry_at?t("cta_academy"):t("enq_h")}</a></div></aside></div></div>`;
+}
+function bindHome(){}
+
+function sideList(sec,activeId){
+  return `<aside class="side"><h4>${esc(st(sec))}</h4><ol>${STEPS.filter(x=>x.sec===sec).map(x=>`<li><a href="${stepHref(x)}" class="${x.id===activeId?"on":""}"><span class="tick ${isDone(x.id)?"on":""}">${isDone(x.id)?"✓":""}</span>${esc(x.type==="quiz"?t("quiz"):x.lesson.title)}</a></li>`).join("")}</ol>
+    ${S.user?`<p class="small" style="margin-top:18px"><a href="#/home">${t("nav_home")}</a></p>`:""}</aside>`;
+}
+function vLesson(id){
+  const s=stepById(id); if(!s||s.type!=="lesson") return vLanding();
+  const L=s.lesson, idx=STEPS.indexOf(s), prev=STEPS[idx-1], next=STEPS[idx+1], guest=!S.user;
+  const video = L.video
+    ? `<div class="video"><iframe src="https://www.youtube-nocookie.com/embed/${esc(L.video)}" title="${esc(L.title)}" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>`
+    : `<div class="video" role="img" aria-label="${t("watch")}"><button class="play" data-a="play" aria-label="Play video"><svg width="26" height="26" viewBox="0 0 24 24"><path d="M7 4l14 8-14 8z" fill="#1A1D29"/></svg></button><div class="cap"><span>${t("watch")}</span><span>${L.mins} ${t("min")}</span></div></div>`;
+  const filmBox = L.challenge && S.user ? `<form id="filmForm" class="box take" novalidate><h3>${t("film_link")}</h3><div class="field" style="margin-bottom:8px"><input id="filmUrl" type="url" placeholder="https://youtube.com/..." value="${esc(S.profile.film_url||"")}"></div><div class="error" id="filmErr"></div><button class="btn btn-ink btn-sm">${t("film_save")}</button></form>` : "";
+  const end = guest
+    ? `<div class="panel save-card"><h2>${t("save_h")}</h2><p class="muted">${t("save_p")}</p>${signupForm(t("save_btn"))}<p class="small muted" style="margin:14px 0 0">${t("have_acc")} <a href="#/login">${t("nav_login")}</a></p></div>`
+    : `<div class="lesson-nav">${prev?`<a class="btn btn-ghost" href="${stepHref(prev)}">${t("prev")}</a>`:"<span></span>"}<button class="btn btn-primary" data-a="doneLesson" data-id="${id}">${t("mark_done")}</button></div>`;
+  return `<div class="wrap lesson"><div class="lesson-grid">${sideList(s.sec,id)}<article>
+    ${guest?`<div class="preview">${t("preview")}</div>`:`<div class="crumb"><a href="#/home">${t("nav_home")}</a> / ${esc(st(s.sec))}</div>`}
+    ${lang()!=="en"?`<div class="lang-note">${t("lang_note")}</div>`:""}
+    <h1>${esc(L.title)}</h1>${video}
+    <div class="reading">${L.body.map(p=>`<p>${p}</p>`).join("")}</div>
+    <div class="box take"><h3>${t("takeaways")}</h3><ul>${L.keys.map(k=>`<li>${esc(k)}</li>`).join("")}</ul></div>
+    <div class="box try"><h3>${t("try_it")}</h3><p style="margin:0">${esc(L.task)}</p></div>
+    ${filmBox}
+    <div class="box acad"><h3>${t("at_academy")}</h3><p style="margin:0">${esc(L.academy)} <a href="#/academy">${t("cta_academy")}</a></p></div>
+    ${end}</article></div></div>`;
+}
+function bindLesson(id){
+  if(!S.user){ local.set("sts_guest_done",[id]); bindAuthForm(); return; }
+  const f=document.getElementById("filmForm");
+  if(f) f.onsubmit=async e=>{ e.preventDefault(); const v=f.filmUrl.value.trim(), err=document.getElementById("filmErr");
+    if(!/^https?:\/\/\S+\.\S+/.test(v)) return err.textContent="Paste the full link to your film, starting with https://";
+    try{ await api.updateProfile({film_url:v}); S.profile.film_url=v; err.textContent=""; toast("Thanks. Our team will watch your film."); }catch(ex){ err.textContent=friendly(ex); } };
+}
+
+const quizState={};
+function vQuiz(sid){
+  const sec=SECTIONS.find(s=>s.id===+sid); if(!sec) return vHome();
+  const id="quiz"+sec.id, qs=quizState[id]||{answers:[],result:null};
+  const idx=STEPS.findIndex(x=>x.id===id), prev=STEPS[idx-1], next=STEPS[idx+1], r=qs.result;
+  let head=`<p class="muted">${t("quiz_need")}</p>`;
+  if(r){
+    head = r.passed
+      ? `<div class="result pass"><div class="small">${t("quiz_pass")}: ${r.score}/${r.total}</div><div class="credit">${esc(sec.credit)} ${esc(S.profile.full_name)}</div>
+         ${allDone()?`<p style="margin:0 0 14px">You've completed the whole course. Your certificate and badge are ready.</p><a class="btn btn-primary" href="#/certificate">${t("nav_cert")}</a>`
+           : `<p style="margin:0 0 14px">Your name is in the credits for ${esc(st(sec))}.</p>${next?`<a class="btn btn-primary" href="${stepHref(next)}">${t("next")}: ${esc(stepTitle(next))}</a>`:`<a class="btn btn-primary" href="#/home">${t("nav_home")}</a>`}`}</div>`
+      : `<div class="result fail"><h3>${t("quiz_fail")}: ${r.score}/${r.total}</h3><p style="margin:0 0 14px">Read the explanations below, then try again.</p><button class="btn btn-ink" data-a="retry" data-id="${id}">${t("quiz_retry")}</button></div>`;
+  }
+  const qhtml=sec.quiz.map((q,i)=>`<div class="q"><fieldset><legend>${i+1}. ${esc(q.q)}</legend><div class="choices">${q.o.map((o,j)=>{
+      let c=""; if(r){ if(j===q.a)c="right"; else if(qs.answers[i]===j)c="wrong"; }
+      return `<label class="choice ${c}"><input type="radio" name="q${i}" value="${j}" ${qs.answers[i]===j?"checked":""} ${r?"disabled":""}>${esc(o)}</label>`; }).join("")}</div>${r?`<div class="why">${esc(q.why)}</div>`:""}</fieldset></div>`).join("");
+  return `<div class="wrap lesson"><div class="lesson-grid">${sideList(sec,id)}<article>
+    <div class="crumb"><a href="#/home">${t("nav_home")}</a> / ${esc(st(sec))}</div>
+    <h1>${t("quiz")}: ${esc(st(sec))}</h1>${head}
+    <form id="quizForm">${qhtml}${r?"":`<div class="error" id="qerr" role="alert"></div><button class="btn btn-primary" id="qsubmit">${t("quiz_check")}</button>`}</form>
+    <div class="lesson-nav">${prev?`<a class="btn btn-ghost" href="${stepHref(prev)}">${t("prev")}</a>`:"<span></span>"}</div></article></div></div>`;
+}
+function bindQuiz(sid){
+  const sec=SECTIONS.find(s=>s.id===+sid); const f=document.getElementById("quizForm"); if(!sec||!f) return;
+  const id="quiz"+sec.id;
+  f.onsubmit=async e=>{
+    e.preventDefault();
+    const ans=sec.quiz.map((q,i)=>{const v=f.querySelector(`input[name=q${i}]:checked`); return v?+v.value:null;});
+    if(ans.includes(null)) return document.getElementById("qerr").textContent="Answer all three questions to check your score.";
+    const btn=document.getElementById("qsubmit"); busy(btn,true);
+    try{
+      const r=await api.submitQuiz(sec.id,ans);
+      quizState[id]={answers:ans,result:r};
+      S.best[sec.id]=Math.max(S.best[sec.id]||0,r.score);
+      if(r.passed){ S.passed.add(sec.id); await ensureCertificate(); }
+      render(); window.scrollTo({top:0,behavior:"smooth"});
+      if(r.passed && allDone()) toast("Course complete. Your certificate is ready.");
+    }catch(ex){ document.getElementById("qerr").textContent=friendly(ex); busy(btn,false); }
+  };
+}
+
+/* ---------- certificate & badge (drawn on canvas so fonts and scripts render correctly) */
+const FONT = (w,px)=>`${w} ${px}px Archivo, "Noto Sans Sinhala", "Noto Sans Tamil", Arial, sans-serif`;
+async function fontsReady(){ try{ await Promise.all([document.fonts.load(FONT(800,60)),document.fonts.load(FONT(700,20)),document.fonts.load(FONT(400,20))]); await document.fonts.ready; }catch(e){} }
+function fitText(ctx,text,weight,start,maxW){ let px=start; ctx.font=FONT(weight,px); while(ctx.measureText(text).width>maxW&&px>24){px-=2;ctx.font=FONT(weight,px);} return px; }
+function drawBadge(ctx,cx,cy,r,year){
+  ctx.save(); ctx.translate(cx,cy); const k=r/170;
+  const circ=(rad,col)=>{ctx.beginPath();ctx.arc(0,0,rad*k,0,Math.PI*2);ctx.fillStyle=col;ctx.fill();};
+  circ(170,"#1A1D29"); circ(160,"#D98E1F"); circ(140,"#1A1D29");
+  ctx.fillStyle="#D98E1F"; for(let i=0;i<24;i++){ ctx.save(); ctx.rotate(i/24*Math.PI*2); ctx.beginPath(); ctx.roundRect(-4*k,-136*k,8*k,11*k,2*k); ctx.fill(); ctx.restore(); }
+  circ(122,"#FBFBF8");
+  ctx.textAlign="center"; ctx.fillStyle="#596172"; ctx.font=FONT(700,20*k); ctx.fillText("Filmmaking",0,-56*k);
+  ctx.fillStyle="#1A1D29"; ctx.font=FONT(800,42*k); ctx.fillText("Story to",0,-10*k); ctx.fillText("Screen",0,36*k);
+  ctx.fillStyle="#D98E1F"; ctx.beginPath(); ctx.roundRect(-72*k,54*k,144*k,34*k,4*k); ctx.fill();
+  ctx.fillStyle="#1A1D29"; ctx.font=FONT(800,18*k); ctx.fillText("Completed "+year,0,77*k);
+  ctx.restore();
+}
+async function certificateCanvas(cert){
+  await fontsReady();
+  const W=1100,H=778,SC=2, c=document.createElement("canvas"); c.width=W*SC; c.height=H*SC; const x=c.getContext("2d"); x.scale(SC,SC);
+  x.fillStyle="#FBFBF8"; x.fillRect(0,0,W,H);
+  x.fillStyle="#1A1D29"; x.fillRect(0,0,W,44); x.fillRect(0,H-44,W,44);
+  x.fillStyle="#EDEFEA"; for(let i=0;i<44;i++){ x.beginPath(); x.roundRect(24+i*24.4,17,12,10,2); x.roundRect(24+i*24.4,H-27,12,10,2); x.fill(); }
+  x.strokeStyle="#1A1D29"; x.lineWidth=1.5; x.strokeRect(40,70,W-80,H-140); x.fillStyle="#D98E1F"; x.fillRect(40,70,10,H-140);
+  x.textAlign="left"; x.fillStyle="#1A1D29";
+  x.font=FONT(700,22); x.fillText(CONFIG.org,100,138);
+  x.font=FONT(800,54); x.fillText("Certificate of completion",100,222);
+  x.fillStyle="#596172"; x.font=FONT(400,22); x.fillText("This certifies that",100,290);
+  x.fillStyle="#1A1D29"; fitText(x,cert.full_name,800,66,860); x.fillText(cert.full_name,100,372);
+  x.fillStyle="#D98E1F"; x.fillRect(100,396,900,3);
+  x.fillStyle="#596172"; x.font=FONT(400,22); x.fillText("has successfully completed the free online course",100,446);
+  x.fillStyle="#1A1D29"; x.font=FONT(700,34); x.fillText(CONFIG.courseTitle,100,492);
+  x.fillStyle="#596172"; x.font=FONT(400,18); x.fillText(SECTIONS.map(s=>s.title.en).join(", "),100,530);
+  const lab=(l,v,px)=>{ x.fillStyle="#596172"; x.font=FONT(400,15); x.fillText(l,px,622); x.fillStyle="#1A1D29"; x.font=FONT(700,21); x.fillText(v,px,648); };
+  lab("Date",fmtDate(cert.issued_at),100); lab("Credential ID",cert.id,330);
+  x.fillStyle="#596172"; x.font=FONT(400,14); x.fillText("Verify at "+CONFIG.siteUrl+"#/verify/"+cert.id,100,682);
+  x.strokeStyle="#1A1D29"; x.lineWidth=1; x.beginPath(); x.moveTo(700,640); x.lineTo(990,640); x.stroke();
+  x.fillStyle="#596172"; x.font=FONT(400,15); x.fillText(`${CONFIG.signatory}, ${CONFIG.org}`,700,664);
+  drawBadge(x,948,168,78,new Date(cert.issued_at).getFullYear());
+  return c;
+}
+async function badgeCanvas(cert){
+  await fontsReady(); const c=document.createElement("canvas"); c.width=c.height=1000; const x=c.getContext("2d");
+  drawBadge(x,500,500,490,new Date(cert.issued_at).getFullYear()); return c;
+}
+const toBlob = c => new Promise(r=>c.toBlob(r,"image/png"));
+let hostDownloads=null;
+if(window.claude && typeof window.claude.use==="function") window.claude.use("downloads").then(d=>hostDownloads=d).catch(()=>{});
+async function saveBlob(name,blob){
+  if(hostDownloads){ try{ await hostDownloads.save({filename:name,data:blob}); }catch(e){ if(e?.code!=="declined") toast("That file couldn't be saved here."); } return; }
+  const url=URL.createObjectURL(blob), a=document.createElement("a"); a.href=url; a.download=name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(url),4000);
+}
+
+function vCertificate(){
+  if(!allDone() || !S.cert){
+    const left=STEPS.filter(s=>!isDone(s.id));
+    if(!left.length) return `<div class="wrap cert-wrap"><h1>Preparing your certificate…</h1><p class="muted">This takes a moment. If it doesn't appear, refresh the page.</p></div>`;
+    return `<div class="wrap cert-wrap"><div class="locked"><h1>${t("cert_locked_h")}</h1><p class="muted">${t("cert_locked_p")}</p><div style="margin:18px 0">${filmstrip()}</div>
+      <ul class="remaining">${left.slice(0,6).map(s=>`<li><a href="${stepHref(s)}">${esc(stepTitle(s))}</a><span class="muted small">${esc(st(s.sec))}</span></li>`).join("")}${left.length>6?`<li class="muted">+ ${left.length-6} more</li>`:""}</ul>
+      <a class="btn btn-primary" href="${stepHref(left[0])}">${t("resume")}</a></div></div>`;
+  }
+  const c=S.cert, d=new Date(c.issued_at);
+  const li=`https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=${encodeURIComponent(CONFIG.courseTitle)}&organizationName=${encodeURIComponent(CONFIG.org)}&issueYear=${d.getFullYear()}&issueMonth=${d.getMonth()+1}&certId=${encodeURIComponent(c.id)}&certUrl=${encodeURIComponent(CONFIG.siteUrl+"#/verify/"+c.id)}`;
+  return `<div class="wrap cert-wrap"><h1>Congratulations, ${esc(firstName())}.</h1>
+    <p class="muted" style="max-width:62ch">You've completed ${esc(CONFIG.courseTitle)}. Download your certificate and badge and add them to your CV, LinkedIn, portfolio and social media.</p>
+    <div class="cert-grid"><div>
+        <div class="cert-view"><img id="certImg" alt="Certificate of completion for ${esc(c.full_name)}"></div>
+        <div class="actions-row"><button class="btn btn-primary btn-sm" data-a="dlPdf">${t("dl_pdf")}</button><button class="btn btn-ghost btn-sm" data-a="dlPng">${t("dl_png")}</button><a class="btn btn-ghost btn-sm" href="${li}" target="_blank" rel="noopener">${t("linkedin")}</a></div>
+        <p class="disclaim">Credential ID ${esc(c.id)}. Anyone can check it at <a href="#/verify/${esc(c.id)}">${esc(CONFIG.siteUrl)}#/verify/${esc(c.id)}</a>. This certificate records completion of a free introductory online course by ${esc(CONFIG.org)}. It is not a government or university qualification.</p></div>
+      <div class="badge-view"><h3>${t("badge_h")}</h3><img id="badgeImg" alt="Story to Screen digital badge"><div class="actions-row" style="justify-content:center"><button class="btn btn-ink btn-sm" data-a="dlBadge">${t("dl_badge")}</button></div><p class="small muted" style="margin-top:12px">Share it on Instagram, Facebook or WhatsApp with ${esc(CONFIG.hashtag)}.</p></div></div>
+    <section class="academy-band" style="border-radius:14px;margin-top:40px;padding:48px 0"><div class="wrap"><div>
+      <h2>You've learned how films are made. Now make one.</h2>
+      <p>At the Film Academy you'll write, shoot and edit your own short film in person, with professional equipment, a crew of classmates and filmmakers mentoring you. Next intake: ${esc(CONFIG.academy.nextIntake)}. Course graduates get priority when places are offered.</p>
+      <a class="btn btn-primary" href="#/academy">${S.profile.academy_enquiry_at?t("cta_academy"):t("enq_h")}</a></div>
+      <div class="compare"><div><span>${t("band_online")}</span><span>${t("band_academy")}</span></div><div><span>✓ ${t("complete_word")}</span><span>Your next step</span></div></div></div></section></div>`;
+}
+async function bindCertificate(){
+  if(!S.cert){ if(allDone()){ await ensureCertificate(); if(S.cert) render(); } return; }
+  const cc=await certificateCanvas(S.cert), bc=await badgeCanvas(S.cert);
+  const ci=document.getElementById("certImg"), bi=document.getElementById("badgeImg");
+  if(ci) ci.src=cc.toDataURL("image/png"); if(bi) bi.src=bc.toDataURL("image/png");
+}
+
+function vAcademy(){
+  const p=S.profile||{}, sent=p.academy_enquiry_at||local.get("sts_guest_enquiry",false);
+  const form = sent ? `<div class="done-msg"><h3>${t("enq_done")}</h3><p style="margin:0">Our team will contact you within a few days about the next intake, fees and scholarships.</p></div>`
+  : `<form id="enqForm" class="panel" novalidate><div class="two">
+      <div class="field"><label for="en">${t("name")}</label><input id="en" value="${esc(p.full_name||"")}" autocomplete="name"></div>
+      <div class="field"><label for="ep">${t("phone")}</label><input id="ep" type="tel" inputmode="tel" autocomplete="tel" placeholder="07X XXX XXXX"></div>
+      <div class="field"><label for="ee">${t("email")}</label><input id="ee" type="email" value="${esc(S.user?.email||"")}" autocomplete="email"></div>
+      <div class="field"><label for="ed">${t("district")}</label><select id="ed"><option value="">Choose</option>${DISTRICTS.map(d=>`<option ${p.district===d?"selected":""}>${d}</option>`).join("")}</select></div></div>
+      <div class="field"><label for="em">${t("message")} <span class="muted small">(optional)</span></label><textarea id="em" rows="3" placeholder="For example: fees, scholarships, schedule"></textarea></div>
+      <div class="error" id="eerr" role="alert"></div><button class="btn btn-primary" id="esubmit">${t("enq_send")}</button>
+      <p class="small muted" style="margin:12px 0 0">We'll only use these details to contact you about the Film Academy.</p></form>`;
+  return `<section class="acad-hero"><div class="wrap"><h1>${t("acad_h")}</h1><p>${t("acad_p")}</p>
+    <div class="ctas"><a class="btn btn-primary" href="#enquire" data-a="toEnquire">${t("enq_h")}</a>${S.user?"":`<a class="btn btn-ghost" style="color:var(--paper);border-color:var(--paper)" href="#/lesson/${FREE_LESSON}">${t("cta_try")}</a>`}</div>
+    <div class="facts"><div><span>Where</span><b>${esc(CONFIG.academy.location)}</b></div><div><span>Next intake</span><b>${esc(CONFIG.academy.nextIntake)}</b></div><div><span>Format</span><b>${esc(CONFIG.academy.format)}</b></div><div><span>You leave with</span><b>${esc(CONFIG.academy.outcome)}</b></div></div></div></section>
+  <section class="sec"><div class="wrap"><div class="sec-head"><h2>What you get at the Academy</h2><p class="muted">Everything the online course introduces, done for real.</p></div>
+    <div class="gets"><div><h3>Make your own short film</h3><p>Develop, shoot and finish a film from your own idea.</p></div><div><h3>Professional equipment</h3><p>Cinema cameras, lenses, lighting, boom and wireless mics, and an editing suite.</p></div><div><h3>Mentoring from filmmakers</h3><p>Small groups guided by working directors, cinematographers, editors and sound recordists.</p></div><div><h3>Work in a crew</h3><p>Take on real roles on each other's films, the way the industry works.</p></div><div><h3>A screening of your film</h3><p>Show your finished film to family, friends and industry guests.</p></div><div><h3>A portfolio and network</h3><p>Leave with finished work and contacts in Sri Lankan film and media.</p></div></div></div></section>
+  <section class="sec" id="enquire"><div class="wrap enquire"><div><h2>${t("enq_h")}</h2><p class="muted">${t("enq_p")}</p>
+    ${S.cert?`<p><b>You've completed the online course.</b> Mention your credential ID ${esc(S.cert.id)} when we call.</p>`:""}
+    <p class="small muted">Or contact us: <a href="mailto:${esc(CONFIG.academy.email)}">${esc(CONFIG.academy.email)}</a>, ${esc(CONFIG.academy.phone)}</p></div>${form}</div></section>${footer()}`;
+}
+function bindAcademy(){
+  const f=document.getElementById("enqForm"); if(!f) return;
+  f.onsubmit=async e=>{
+    e.preventDefault(); const v=id=>document.getElementById(id).value.trim(), err=document.getElementById("eerr"), btn=document.getElementById("esubmit");
+    const row={full_name:v("en"),phone:v("ep")||null,email:v("ee")||null,district:v("ed")||null,language:lang(),message:v("em")||null,course_progress:S.user?pct():null,certificate_id:S.cert?.id||null};
+    if(row.full_name.length<2) return err.textContent="Enter your name.";
+    if(!row.phone && !(row.email&&validEmail(row.email))) return err.textContent="Enter a phone number or a valid email so we can reach you.";
+    busy(btn,true);
+    try{
+      await api.submitEnquiry(row);
+      if(S.user){ const at=new Date().toISOString(); S.profile.academy_enquiry_at=at; await api.updateProfile({academy_enquiry_at:at}).catch(()=>{}); } else local.set("sts_guest_enquiry",true);
+      render(); document.getElementById("enquire")?.scrollIntoView(); toast(t("enq_done"));
+    }catch(ex){ err.textContent=friendly(ex); busy(btn,false); }
+  };
+}
+
+function vProfile(){
+  const p=S.profile;
+  return `<div class="wrap"><div class="auth panel" style="max-width:560px"><h1 style="font-size:2rem">${t("profile_h")}</h1>
+    <form id="profForm" novalidate>
+      <div class="field"><label for="pn">${t("name")}</label><input id="pn" value="${esc(p.full_name)}"><div class="hint">${S.cert?"Your certificate was issued as "+esc(S.cert.full_name)+". Contact us to correct it.":t("name_hint")}</div></div>
+      <div class="field"><label>${t("email")}</label><input value="${esc(S.user.email)}" disabled></div>
+      <div class="field"><span class="lbl-text">${t("lang_label")}</span><div class="seg">${[["si","සිංහල"],["ta","தமிழ்"],["en","English"]].map(([v,n])=>`<label><input type="radio" name="pl" value="${v}" ${p.language===v?"checked":""}>${n}</label>`).join("")}</div></div>
+      <div class="field"><label for="ps">${t("stage")}</label><select id="ps"><option value="">Choose</option>${STAGES.map(s=>`<option ${p.stage===s?"selected":""}>${esc(s)}</option>`).join("")}</select></div>
+      <div class="field"><label for="pd">${t("district")}</label><select id="pd"><option value="">Choose</option>${DISTRICTS.map(d=>`<option ${p.district===d?"selected":""}>${d}</option>`).join("")}</select></div>
+      <label class="check"><input type="checkbox" id="po" ${p.academy_optin?"checked":""}><span>${t("optin")}</span></label>
+      <div class="error" id="perr" role="alert"></div><button class="btn btn-primary" id="psubmit">${t("save")}</button></form>
+    <hr style="border:0;border-top:1px solid var(--line);margin:26px 0"><button class="btn btn-ink btn-sm" data-a="logout">${t("nav_logout")}</button></div></div>`;
+}
+function bindProfile(){
+  const f=document.getElementById("profForm");
+  f.onsubmit=async e=>{ e.preventDefault(); const err=document.getElementById("perr"), btn=document.getElementById("psubmit");
+    const patch={full_name:f.pn.value.trim(),language:(f.querySelector('input[name=pl]:checked')||{}).value||"en",stage:f.ps.value||null,district:f.pd.value||null,academy_optin:f.po.checked};
+    if(patch.full_name.length<2) return err.textContent="Enter your full name.";
+    busy(btn,true); try{ await api.updateProfile(patch); Object.assign(S.profile,patch); toast(t("saved")); render(); }catch(ex){ err.textContent=friendly(ex); busy(btn,false); } };
+}
+
+function vVerify(id){
+  if(!id) return `<div class="wrap"><div class="verify panel"><h1 style="font-size:2rem">Verify a certificate</h1><p class="muted">Enter the credential ID printed on the certificate.</p>
+    <form id="vf" style="display:flex;gap:8px;margin-top:14px"><div class="field" style="flex:1;margin:0"><input id="vid" placeholder="STS-2026-XXXXXXXX" aria-label="Credential ID"></div><button class="btn btn-primary">Verify</button></form></div></div>`;
+  setTimeout(async()=>{ const box=document.getElementById("vres"); if(!box) return;
+    try{ const r=await api.verify(id);
+      box.innerHTML = r ? `<div class="seal" style="background:var(--ok)">✓</div><h1 style="font-size:2rem">Valid certificate</h1><p><b>${esc(r.full_name)}</b> completed ${esc(CONFIG.courseTitle)} on ${fmtDate(r.issued_at)}.</p><p class="small muted">Issued by ${esc(CONFIG.org)}. Credential ID ${esc(id.toUpperCase())}.</p>`
+        : `<div class="seal" style="background:var(--err)">!</div><h1 style="font-size:2rem">No certificate found</h1><p class="muted">Check the credential ID and try again. IDs look like STS-2026-XXXXXXXX.</p><a href="#/verify">Try another ID</a>`;
+    }catch(e){ box.innerHTML=`<p class="error">${esc(friendly(e))}</p>`; } },0);
+  return `<div class="wrap"><div class="verify panel" id="vres"><p class="muted">Checking…</p></div></div>`;
+}
+
+/* global click actions */
+app.addEventListener("click",async e=>{
+  const b=e.target.closest("[data-a]"); if(!b) return; const a=b.dataset.a;
+  if(a==="pwToggle"){ const i=b.previousElementSibling; const show=i.type==="password"; i.type=show?"text":"password"; b.textContent=show?t("hide"):t("show"); }
+  if(a==="google"){ try{ await api.google(); }catch(ex){ toast(friendly(ex)); } }
+  if(a==="play") toast(t("video_soon"));
+  if(a==="toEnquire"){ e.preventDefault(); document.getElementById("enquire")?.scrollIntoView({behavior:"smooth"}); }
+  if(a==="doneLesson"){
+    const id=b.dataset.id; busy(b,true);
+    try{ await api.completeLesson(id); S.done.add(id); const nx=STEPS[STEPS.findIndex(s=>s.id===id)+1]; go(nx?stepHref(nx):"#/home"); }
+    catch(ex){ toast(friendly(ex)); busy(b,false); }
+  }
+  if(a==="retry"){ delete quizState[b.dataset.id]; render(); }
+  if(a==="saveAbout"){
+    const s=(document.querySelector('input[name=stage]:checked')||{}).value||null, d=document.getElementById("dist").value||null;
+    if(!s&&!d) return toast("Tap an option first, or choose Not now.");
+    try{ await api.updateProfile({stage:s,district:d}); Object.assign(S.profile,{stage:s||S.profile.stage,district:d}); toast("Thanks!"); local.set("sts_about_dismissed_"+S.user.id,true); render(); }catch(ex){ toast(friendly(ex)); }
+  }
+  if(a==="dismissAbout"){ local.set("sts_about_dismissed_"+S.user.id,true); document.getElementById("aboutCard")?.remove(); }
+  if(a==="dlPng"){ saveBlob(`Story-to-Screen-certificate-${S.cert.id}.png`, await toBlob(await certificateCanvas(S.cert))); }
+  if(a==="dlBadge"){ saveBlob(`Story-to-Screen-badge-${S.cert.id}.png`, await toBlob(await badgeCanvas(S.cert))); }
+  if(a==="dlPdf"){
+    const c=await certificateCanvas(S.cert);
+    if(!window.jspdf){ toast("PDF isn't available right now. Download the PNG instead."); return; }
+    const pdf=new window.jspdf.jsPDF({orientation:"landscape",unit:"pt",format:[1100,778]});
+    pdf.addImage(c.toDataURL("image/png"),"PNG",0,0,1100,778); saveBlob(`Story-to-Screen-certificate-${S.cert.id}.pdf`, pdf.output("blob"));
+  }
+  if(a==="logout"){ await api.signOut(); Object.assign(S,{user:null,profile:null,done:new Set(),passed:new Set(),best:{},cert:null}); go("#/"); }
+});
+document.addEventListener("submit",e=>{ if(e.target.id==="vf"){ e.preventDefault(); const v=document.getElementById("vid").value.trim(); if(v) go("#/verify/"+encodeURIComponent(v)); } });
+
+/* =========================================================
+   START
+   ========================================================= */
+if(!CanvasRenderingContext2D.prototype.roundRect){ CanvasRenderingContext2D.prototype.roundRect=function(x,y,w,h){ this.rect(x,y,w,h); }; }
+(async function start(){
+  if(DEMO) document.getElementById("demoBar").innerHTML=`<div class="demo-bar">Demo mode: accounts and progress are saved in this browser only. Add your Supabase keys in CONFIG to go live.</div>`;
+  const h=location.hash;
+  const fromEmailLink=/access_token|type=signup|type=magiclink/.test(h);
+  if(/type=recovery/.test(h)) S.recovery=true;
+  api.onAuth(ev=>{ if(ev==="PASSWORD_RECOVERY"){ S.recovery=true; if(S.ready) go("#/reset"); } });
+  if(/error_description/.test(h)){
+    const m=decodeURIComponent((h.match(/error_description=([^&]+)/)||[])[1]||"").replace(/\+/g," ");
+    history.replaceState(null,"",location.pathname+"#/login"); setTimeout(()=>toast(m||"That link has expired. Log in or request a new one."),300);
+  }
+  try{
+    S.user=await api.session();
+    if(S.user && !S.recovery) await loadUser();
+  }catch(e){ console.error(e); toast(friendly(e)); }
+  S.ready=true;
+  if(/access_token/.test(location.hash) && !S.user) history.replaceState(null,"",location.pathname+"#/login");
+  if(S.recovery){ history.replaceState(null,"",location.pathname+"#/reset"); }
+  else if(fromEmailLink && S.user){ const nx=nextStep(); history.replaceState(null,"",location.pathname+(nx?stepHref(nx):"#/home")); setTimeout(()=>toast(`Welcome, ${firstName()}. Your email is confirmed.`),300); }
+  render();
+})();
+</script>
+</body>
+</html>
